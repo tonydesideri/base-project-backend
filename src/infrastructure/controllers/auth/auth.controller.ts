@@ -43,7 +43,10 @@ export class AuthController {
   async login(@Body() auth: AuthLoginDto, @Req() request: Request) {
     const accessTokenCookie = await this.loginUsecaseProxy.getInstance().getCookieWithJwtToken(auth.username);
     const refreshTokenCookie = await this.loginUsecaseProxy.getInstance().getCookieWithJwtRefreshToken(auth.username);
-    request.res.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie]);
+
+    // Verificar se o ambiente é de produção para adicionar a tag 'secure' que adicionada uma camada de segurança para funcionar apenas com HTTPS
+    const secure = process.env.NODE_ENV === "production"
+    request.res.setHeader('Set-Cookie', [accessTokenCookie.concat(`;${secure}`), refreshTokenCookie.concat(`;${secure}`)]);
     return 'Login successful';
   }
 
@@ -73,7 +76,10 @@ export class AuthController {
   @ApiBearerAuth()
   async refresh(@Req() request: Request, @User() auth: IsAuthPresenter) {
     const accessTokenCookie = await this.loginUsecaseProxy.getInstance().getCookieWithJwtToken(auth.username);
-    request.res.setHeader('Set-Cookie', accessTokenCookie);
+
+    // Verificar se o ambiente é de produção para adicionar a tag 'secure' que adicionada uma camada de segurança para funcionar apenas com HTTPS
+    const secure = process.env.NODE_ENV === "production"
+    request.res.setHeader('Set-Cookie', accessTokenCookie.concat(`;${secure}`));
     return 'Refresh successful';
   }
 }
