@@ -16,7 +16,6 @@ export class DatabaseUserRepository implements UserRepository {
     const userEntity = this.toUserEntity(user);
     const result = await this.userEntityRepository.insert(userEntity);
     return this.toUser(result.generatedMaps[0] as User);
-    console.log(result.generatedMaps);
   }
 
   async findAll(): Promise<UserM[]> {

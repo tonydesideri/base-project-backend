@@ -24,6 +24,4 @@ const config = new DataSource({
   // },
 });
 
-console.log(config);
-
 export default config;
