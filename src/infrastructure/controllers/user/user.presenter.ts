@@ -20,7 +20,6 @@ export class UserPresenter {
   constructor(user: UserM) {
     this.id = user.id;
     this.username = user.username;
-    this.password = user.password;
     this.createdate = user.createDate;
     this.updateddate = user.updatedDate;
     this.hashRefreshToken = user.hashRefreshToken;
