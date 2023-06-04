@@ -37,7 +37,7 @@ export class AuthController {
     private readonly isAuthUsecaseProxy: UseCaseProxy<IsAuthenticatedUseCases>,
   ) {}
   
-  @UseGuards(RateLimitGuard)
+  
   @Post('login')
   @UseGuards(LoginGuard)
   @ApiBearerAuth()
