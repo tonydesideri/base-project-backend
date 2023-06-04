@@ -1,7 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { UserWithoutPassword } from 'src/domain/model/user';
+import { ApiProperty } from '@nestjs/swagger'
 
 export class IsAuthPresenter {
   @ApiProperty()
-  username: string;
+  username: string
 }

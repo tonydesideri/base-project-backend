@@ -1,23 +1,37 @@
-import { Body, Controller, Get, Inject, Post, Req, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiExtraModels, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Request } from 'express';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common'
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiExtraModels,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger'
+import { Request } from 'express'
 
-import { AuthLoginDto } from './auth-dto.class';
-import { IsAuthPresenter } from './auth.presenter';
+import { AuthLoginDto } from './auth-dto.class'
+import { IsAuthPresenter } from './auth.presenter'
 
-import JwtRefreshGuard from '../../common/guards/jwtRefresh.guard';
-import { JwtAuthGuard } from '../../common/guards/jwtAuth.guard';
-import { LoginGuard } from '../../common/guards/login.guard';
+import JwtRefreshGuard from '../../common/guards/jwtRefresh.guard'
+import { JwtAuthGuard } from '../../common/guards/jwtAuth.guard'
+import { LoginGuard } from '../../common/guards/login.guard'
 
-import { UseCaseProxy } from '../../usecases-proxy/usecases-proxy';
-import { UsecasesProxyModule } from '../../usecases-proxy/usecases-proxy.module';
-import { LoginUseCases } from '../../../usecases/auth/login.usecases';
-import { IsAuthenticatedUseCases } from '../../../usecases/auth/isAuthenticated.usecases';
-import { LogoutUseCases } from '../../../usecases/auth/logout.usecases';
+import { UseCaseProxy } from '../../usecases-proxy/usecases-proxy'
+import { UsecasesProxyModule } from '../../usecases-proxy/usecases-proxy.module'
+import { LoginUseCases } from '../../../usecases/auth/login.usecases'
+import { IsAuthenticatedUseCases } from '../../../usecases/auth/isAuthenticated.usecases'
+import { LogoutUseCases } from '../../../usecases/auth/logout.usecases'
 
-import { ApiResponseType } from '../../common/swagger/response.decorator';
-import { User } from 'src/infrastructure/common/decorators/user.decorator';
-import { RateLimitGuard } from 'src/infrastructure/common/guards/rateLimit.guard';
+import { ApiResponseType } from '../../common/swagger/response.decorator'
+import { User } from 'src/infrastructure/common/decorators/user.decorator'
 
 @Controller('auth')
 @ApiTags('auth')
@@ -36,32 +50,38 @@ export class AuthController {
     @Inject(UsecasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY)
     private readonly isAuthUsecaseProxy: UseCaseProxy<IsAuthenticatedUseCases>,
   ) {}
-  
-  
+
   @Post('login')
   @UseGuards(LoginGuard)
   @ApiBearerAuth()
   @ApiBody({ type: AuthLoginDto })
   @ApiOperation({ description: 'login' })
   async login(@Body() auth: AuthLoginDto, @Req() request: Request) {
-    const accessTokenCookie = await this.loginUsecaseProxy.getInstance().getCookieWithJwtToken(auth.username);
-    const refreshTokenCookie = await this.loginUsecaseProxy.getInstance().getCookieWithJwtRefreshToken(auth.username);
+    const accessTokenCookie = await this.loginUsecaseProxy
+      .getInstance()
+      .getCookieWithJwtToken(auth.username)
+    const refreshTokenCookie = await this.loginUsecaseProxy
+      .getInstance()
+      .getCookieWithJwtRefreshToken(auth.username)
     /**
-     * Verificar se o ambiente é de produção para adicionar a tag 'secure' 
+     * Verificar se o ambiente é de produção para adicionar a tag 'secure'
      * que adicionada uma camada de segurança para funcionar apenas com HTTPS
      */
-    const secure = process.env.NODE_ENV === "production" && "secure"
-    request.res.setHeader('Set-Cookie', [accessTokenCookie.concat(`;${secure}`), refreshTokenCookie.concat(`;${secure}`)]);
-    return 'Login successful';
+    const secure = process.env.NODE_ENV === 'production' && 'secure'
+    request.res.setHeader('Set-Cookie', [
+      accessTokenCookie.concat(`;${secure}`),
+      refreshTokenCookie.concat(`;${secure}`),
+    ])
+    return 'Login successful'
   }
 
   @Post('logout')
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ description: 'logout' })
   async logout(@Req() request: Request) {
-    const cookie = await this.logoutUsecaseProxy.getInstance().execute();
-    request.res.setHeader('Set-Cookie', cookie);
-    return 'Logout successful';
+    const cookie = await this.logoutUsecaseProxy.getInstance().execute()
+    request.res.setHeader('Set-Cookie', cookie)
+    return 'Logout successful'
   }
 
   @Get('is_authenticated')
@@ -70,10 +90,12 @@ export class AuthController {
   @ApiOperation({ description: 'is_authenticated' })
   @ApiResponseType(IsAuthPresenter, false)
   async isAuthenticated(@User() auth: IsAuthPresenter) {
-    const user = await this.isAuthUsecaseProxy.getInstance().execute(auth.username);
-    const response = new IsAuthPresenter();
-    response.username = user.username;
-    return response;
+    const user = await this.isAuthUsecaseProxy
+      .getInstance()
+      .execute(auth.username)
+    const response = new IsAuthPresenter()
+    response.username = user.username
+    return response
   }
 
   @Get('refresh')
@@ -83,13 +105,15 @@ export class AuthController {
     /**
      * Adicionando um novo Authentication cookie no header da requisição
      */
-    const accessTokenCookie = await this.loginUsecaseProxy.getInstance().getCookieWithJwtToken(auth.username);
+    const accessTokenCookie = await this.loginUsecaseProxy
+      .getInstance()
+      .getCookieWithJwtToken(auth.username)
     /**
-     * Verificar se o ambiente é de produção para adicionar a tag 'secure' 
+     * Verificar se o ambiente é de produção para adicionar a tag 'secure'
      * que adicionada uma camada de segurança para funcionar apenas com HTTPS
      */
-    const secure = process.env.NODE_ENV === "production" && "secure"
-    request.res.setHeader('Set-Cookie', accessTokenCookie.concat(`;${secure}`));
-    return 'Refresh successful';
+    const secure = process.env.NODE_ENV === 'production' && 'secure'
+    request.res.setHeader('Set-Cookie', accessTokenCookie.concat(`;${secure}`))
+    return 'Refresh successful'
   }
 }
