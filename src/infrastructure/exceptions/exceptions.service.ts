@@ -11,13 +11,13 @@ import { TooManyRequestsException } from '../common/exceptions/tooManyRequestes.
 
 @Injectable()
 export class ExceptionsService implements IException {
-  badRequestException(data: IFormatExceptionMessage): void {
+  BadRequestException(data: IFormatExceptionMessage): void {
     throw new BadRequestException(data);
   }
-  internalServerErrorException(data?: IFormatExceptionMessage): void {
+  InternalServerErrorException(data?: IFormatExceptionMessage): void {
     throw new InternalServerErrorException(data);
   }
-  forbiddenException(data?: IFormatExceptionMessage): void {
+  ForbiddenException(data?: IFormatExceptionMessage): void {
     throw new ForbiddenException(data);
   }
   UnauthorizedException(data?: IFormatExceptionMessage): void {
