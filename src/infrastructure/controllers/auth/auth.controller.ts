@@ -17,6 +17,8 @@ import { LogoutUseCases } from '../../../usecases/auth/logout.usecases';
 
 import { ApiResponseType } from '../../common/swagger/response.decorator';
 import { User } from 'src/infrastructure/common/decorators/user.decorator';
+import { RateLimitGuard } from 'src/infrastructure/common/guards/rateLimit.guard';
+
 @Controller('auth')
 @ApiTags('auth')
 @ApiResponse({
@@ -34,7 +36,8 @@ export class AuthController {
     @Inject(UsecasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY)
     private readonly isAuthUsecaseProxy: UseCaseProxy<IsAuthenticatedUseCases>,
   ) {}
-
+  
+  @UseGuards(RateLimitGuard)
   @Post('login')
   @UseGuards(LoginGuard)
   @ApiBearerAuth()

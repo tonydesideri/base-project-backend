@@ -15,9 +15,10 @@ export class AllExceptionFilter implements ExceptionFilter {
     const request: any = ctx.getRequest();
 
     const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
+
     const message =
-      exception instanceof HttpException
-        ? (exception.getResponse() as IError)
+      exception !instanceof HttpException
+        ?  { message: String((exception.getResponse() as IError)), code_error: null }
         : { message: (exception as Error).message, code_error: null };
 
     const responseData = {
