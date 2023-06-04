@@ -43,9 +43,11 @@ export class AuthController {
   async login(@Body() auth: AuthLoginDto, @Req() request: Request) {
     const accessTokenCookie = await this.loginUsecaseProxy.getInstance().getCookieWithJwtToken(auth.username);
     const refreshTokenCookie = await this.loginUsecaseProxy.getInstance().getCookieWithJwtRefreshToken(auth.username);
-
-    // Verificar se o ambiente é de produção para adicionar a tag 'secure' que adicionada uma camada de segurança para funcionar apenas com HTTPS
-    const secure = process.env.NODE_ENV === "production"
+    /**
+     * Verificar se o ambiente é de produção para adicionar a tag 'secure' 
+     * que adicionada uma camada de segurança para funcionar apenas com HTTPS
+     */
+    const secure = process.env.NODE_ENV === "production" && "secure"
     request.res.setHeader('Set-Cookie', [accessTokenCookie.concat(`;${secure}`), refreshTokenCookie.concat(`;${secure}`)]);
     return 'Login successful';
   }
@@ -75,10 +77,15 @@ export class AuthController {
   @UseGuards(JwtRefreshGuard)
   @ApiBearerAuth()
   async refresh(@Req() request: Request, @User() auth: IsAuthPresenter) {
+    /**
+     * Adicionando um novo Authentication cookie no header da requisição
+     */
     const accessTokenCookie = await this.loginUsecaseProxy.getInstance().getCookieWithJwtToken(auth.username);
-
-    // Verificar se o ambiente é de produção para adicionar a tag 'secure' que adicionada uma camada de segurança para funcionar apenas com HTTPS
-    const secure = process.env.NODE_ENV === "production"
+    /**
+     * Verificar se o ambiente é de produção para adicionar a tag 'secure' 
+     * que adicionada uma camada de segurança para funcionar apenas com HTTPS
+     */
+    const secure = process.env.NODE_ENV === "production" && "secure"
     request.res.setHeader('Set-Cookie', accessTokenCookie.concat(`;${secure}`));
     return 'Refresh successful';
   }
