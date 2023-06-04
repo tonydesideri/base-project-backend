@@ -7,21 +7,16 @@ export class UserPresenter {
   @ApiProperty()
   username: string;
   @ApiProperty()
-  password: string;
-  @ApiProperty()
   createdate: Date;
   @ApiProperty()
   updateddate: Date;
   @ApiProperty()
   lastLogin: Date;
-  @ApiProperty()
-  hashRefreshToken: string;
 
   constructor(user: UserM) {
     this.id = user.id;
     this.username = user.username;
     this.createdate = user.createDate;
     this.updateddate = user.updatedDate;
-    this.hashRefreshToken = user.hashRefreshToken;
   }
 }
