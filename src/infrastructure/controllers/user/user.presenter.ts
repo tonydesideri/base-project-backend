@@ -18,5 +18,6 @@ export class UserPresenter {
     this.username = user.username;
     this.createdate = user.createDate;
     this.updateddate = user.updatedDate;
+    this.lastLogin = user.lastLogin;
   }
 }
