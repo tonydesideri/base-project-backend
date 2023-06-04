@@ -18,12 +18,12 @@ export class DatabaseUserRepository implements UserRepository {
     return this.toUser(result.generatedMaps[0] as User);
   }
 
-  async findAll(): Promise<UserM[]> {
+  async getAll(): Promise<UserM[]> {
     const usersEntity = await this.userEntityRepository.find();
     return usersEntity.map((usersEntity) => this.toUser(usersEntity));
   }
 
-  async findById(id: number): Promise<UserM> {
+  async getById(id: number): Promise<UserM> {
     const userEntity = await this.userEntityRepository.findOneOrFail({
       where: {
         id

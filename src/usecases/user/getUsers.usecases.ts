@@ -5,6 +5,6 @@ export class getUsersUseCases {
   constructor(private readonly userRepository: UserRepository) {}
 
   async execute(): Promise<UserM[]> {
-    return await this.userRepository.findAll();
+    return await this.userRepository.getAll();
   }
 }
