@@ -3,4 +3,6 @@ export interface JWTConfig {
   getJwtExpirationTime(): string
   getJwtRefreshSecret(): string
   getJwtRefreshExpirationTime(): string
+  getJwtForgotPasswordSecret(): string
+  getJwtForgotPasswordExpirationTime(): string
 }

@@ -4,7 +4,15 @@ export interface UserRepository {
   insert(todo: UserM): Promise<UserM>
   getAll(): Promise<UserM[]>
   getById(id: number): Promise<UserM>
-  getUserByUsername(username: string): Promise<UserM>
-  updateLastLogin(username: string): Promise<void>
-  updateRefreshToken(username: string, refreshToken: string): Promise<void>
+  getUserByEmail(email: string): Promise<UserM>
+  updateLastLogin(email: string): Promise<void>
+  updateRefreshToken(email: string, refreshToken: string): Promise<void>
+  updateForgotPasswordToken(
+    email: string,
+    forgotPasswordToken: string,
+  ): Promise<void>
+  updatePasswordAndInvalidForgotPasswordToken(
+    email: string,
+    hashPassword: string,
+  ): Promise<void>
 }

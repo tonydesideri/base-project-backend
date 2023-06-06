@@ -6,7 +6,7 @@ export class UserPresenter {
   id: number
 
   @ApiProperty()
-  username: string
+  email: string
 
   @ApiProperty()
   createdate: Date
@@ -19,7 +19,7 @@ export class UserPresenter {
 
   constructor(user: UserM) {
     this.id = user.id
-    this.username = user.username
+    this.email = user.email
     this.createdate = user.createDate
     this.updateddate = user.updatedDate
     this.lastLogin = user.lastLogin

@@ -9,4 +9,5 @@ export interface IException {
   ForbiddenException(data?: IFormatExceptionMessage): void
   UnauthorizedException(data?: IFormatExceptionMessage): void
   TooManyRequestsException(message: string): void
+  NotFoundException(data?: IFormatExceptionMessage): void
 }

@@ -37,7 +37,7 @@ export class JwtRefreshTokenStrategy extends PassportStrategy(
     const refreshToken = request.cookies?.Refresh
     const user = this.loginUsecaseProxy
       .getInstance()
-      .getUserIfRefreshTokenMatches(refreshToken, payload.username)
+      .getUserIfRefreshTokenMatches(refreshToken, payload.email)
     if (!user) {
       this.logger.warn('JwtStrategy', `User not found or hash not correct`)
       this.exceptionService.UnauthorizedException({

@@ -14,7 +14,7 @@ export class User {
 
   @Index({ unique: true })
   @Column('varchar', { unique: true })
-  username: string
+  email: string
 
   @Column('text')
   password: string
@@ -30,4 +30,7 @@ export class User {
 
   @Column('varchar', { nullable: true })
   hach_refresh_token: string
+
+  @Column('varchar', { nullable: true })
+  hach_forgot_password_token: string
 }

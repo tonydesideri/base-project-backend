@@ -5,8 +5,22 @@ export class AuthLoginDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  readonly username: string
+  readonly email: string
 
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsString()
+  readonly password: string
+}
+
+export class ForgotPasswordDto {
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsString()
+  readonly email: string
+}
+
+export class ResetPasswordDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()

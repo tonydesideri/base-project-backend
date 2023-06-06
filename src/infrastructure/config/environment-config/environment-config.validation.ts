@@ -32,6 +32,12 @@ class EnvironmentVariables {
   JWT_REFRESH_TOKEN_EXPIRATION_TIME: string
 
   @IsString()
+  JWT_FORGOT_PASSWORD_TOKEN_SECRET: string
+
+  @IsString()
+  JWT_FORGOT_PASSWORD_TOKEN_EXPIRATION_TIME: string
+
+  @IsString()
   DATABASE_HOST: string
 
   @IsNumber()

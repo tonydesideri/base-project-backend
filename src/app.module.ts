@@ -11,6 +11,7 @@ import { EnvironmentConfigModule } from './infrastructure/config/environment-con
 import { LocalStrategy } from './infrastructure/common/strategies/local.strategy'
 import { JwtStrategy } from './infrastructure/common/strategies/jwt.strategy'
 import { JwtRefreshTokenStrategy } from './infrastructure/common/strategies/jwtRefresh.strategy'
+import { JwtForogotPasswordTokenStrategy } from './infrastructure/common/strategies/jwtForgotPassword.strategy'
 
 @Module({
   imports: [
@@ -26,6 +27,11 @@ import { JwtRefreshTokenStrategy } from './infrastructure/common/strategies/jwtR
     JwtServiceModule,
     EnvironmentConfigModule,
   ],
-  providers: [LocalStrategy, JwtStrategy, JwtRefreshTokenStrategy],
+  providers: [
+    LocalStrategy,
+    JwtStrategy,
+    JwtRefreshTokenStrategy,
+    JwtForogotPasswordTokenStrategy,
+  ],
 })
 export class AppModule {}

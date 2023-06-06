@@ -32,22 +32,19 @@ export class DatabaseUserRepository implements UserRepository {
     return this.toUser(userEntity)
   }
 
-  async updateRefreshToken(
-    username: string,
-    refreshToken: string,
-  ): Promise<void> {
+  async updateRefreshToken(email: string, refreshToken: string): Promise<void> {
     await this.userEntityRepository.update(
       {
-        username,
+        email,
       },
       { hach_refresh_token: refreshToken },
     )
   }
 
-  async getUserByUsername(username: string): Promise<UserM> {
+  async getUserByEmail(email: string): Promise<UserM> {
     const adminUserEntity = await this.userEntityRepository.findOne({
       where: {
-        username,
+        email,
       },
     })
     if (!adminUserEntity) {
@@ -56,12 +53,39 @@ export class DatabaseUserRepository implements UserRepository {
     return this.toUser(adminUserEntity)
   }
 
-  async updateLastLogin(username: string): Promise<void> {
+  async updateLastLogin(email: string): Promise<void> {
     await this.userEntityRepository.update(
       {
-        username,
+        email,
       },
       { last_login: () => 'CURRENT_TIMESTAMP' },
+    )
+  }
+
+  async updateForgotPasswordToken(
+    email: string,
+    forgotPasswordToken: string,
+  ): Promise<void> {
+    await this.userEntityRepository.update(
+      {
+        email,
+      },
+      { hach_forgot_password_token: forgotPasswordToken },
+    )
+  }
+
+  async updatePasswordAndInvalidForgotPasswordToken(
+    email: string,
+    hashPassword: string,
+  ): Promise<void> {
+    await this.userEntityRepository.update(
+      {
+        email,
+      },
+      {
+        password: hashPassword,
+        hach_forgot_password_token: null,
+      },
     )
   }
 
@@ -69,12 +93,14 @@ export class DatabaseUserRepository implements UserRepository {
     const adminUser: UserM = new UserM()
 
     adminUser.id = adminUserEntity.id
-    adminUser.username = adminUserEntity.username
+    adminUser.email = adminUserEntity.email
     adminUser.password = adminUserEntity.password
     adminUser.createDate = adminUserEntity.createdate
     adminUser.updatedDate = adminUserEntity.updateddate
     adminUser.lastLogin = adminUserEntity.last_login
     adminUser.hashRefreshToken = adminUserEntity.hach_refresh_token
+    adminUser.hashForgotPasswordToken =
+      adminUserEntity.hach_forgot_password_token
 
     return adminUser
   }
@@ -82,7 +108,7 @@ export class DatabaseUserRepository implements UserRepository {
   private toUserEntity(adminUser: UserM): User {
     const adminUserEntity: User = new User()
 
-    adminUserEntity.username = adminUser.username
+    adminUserEntity.email = adminUser.email
     adminUserEntity.password = adminUser.password
     adminUserEntity.last_login = adminUser.lastLogin
 

@@ -9,9 +9,9 @@ export class AddUserUseCases {
     private readonly userRepository: UserRepository,
   ) {}
 
-  async execute(username: string, password: string): Promise<UserM> {
+  async execute(email: string, password: string): Promise<UserM> {
     const user = new UserM()
-    user.username = username
+    user.email = email
     user.password = await bcrypt.hash(password, 10)
     const result = await this.userRepository.insert(user)
     this.logger.log('addUserUseCases execute', 'New User have been inserted')

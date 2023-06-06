@@ -8,10 +8,10 @@ import {
 import { UserPresenter } from './user.presenter'
 import { UsecasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module'
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy'
-import { addUserUseCases } from 'src/usecases/user/addUser.usecases'
+import { AddUserUseCases } from 'src/usecases/user/addUser.usecases'
 import { ApiResponseType } from 'src/infrastructure/common/swagger/response.decorator'
 import { AddUserDto } from './user.dto'
-import { getUsersUseCases } from 'src/usecases/user/getUsers.usecases'
+import { GetUsersUseCases } from 'src/usecases/user/getUsers.usecases'
 import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard'
 
 @Controller('user')
@@ -21,18 +21,18 @@ import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard'
 export class UserController {
   constructor(
     @Inject(UsecasesProxyModule.POST_USER_USECASES_PROXY)
-    private readonly addUserUsecaseProxy: UseCaseProxy<addUserUseCases>,
+    private readonly addUserUsecaseProxy: UseCaseProxy<AddUserUseCases>,
     @Inject(UsecasesProxyModule.GET_USERS_USECASES_PROXY)
-    private readonly getAllUserUsecaseProxy: UseCaseProxy<getUsersUseCases>,
+    private readonly getAllUserUsecaseProxy: UseCaseProxy<GetUsersUseCases>,
   ) {}
 
   @Post('user')
   @ApiResponseType(UserPresenter, true)
   async addUser(@Body() addUserDto: AddUserDto) {
-    const { username, password } = addUserDto
+    const { email, password } = addUserDto
     const userCreated = await this.addUserUsecaseProxy
       .getInstance()
-      .execute(username, password)
+      .execute(email, password)
     return new UserPresenter(userCreated)
   }
 

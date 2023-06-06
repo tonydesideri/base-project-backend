@@ -17,7 +17,7 @@ const config = new DataSource({
   synchronize: false,
   schema: process.env.DATABASE_SCHEMA,
   migrationsRun: true,
-  migrationsTableName: 'migration_todo',
+  migrationsTableName: 'migrations',
   migrations: [
     join(
       __dirname,

@@ -26,6 +26,8 @@ import { DatabaseUserRepository } from '../repositories/user.repository'
 import { EnvironmentConfigModule } from '../config/environment-config/environment-config.module'
 import { EnvironmentConfigService } from '../config/environment-config/environment-config.service'
 import { UseCaseProxy } from './usecases-proxy'
+import { ForgotPasswordUseCases } from 'src/usecases/auth/forgotPassword.usecases'
+import { ExceptionsService } from '../exceptions/exceptions.service'
 
 @Module({
   imports: [
@@ -47,6 +49,7 @@ export class UsecasesProxyModule {
   static LOGIN_USECASES_PROXY = 'LoginUseCasesProxy'
   static IS_AUTHENTICATED_USECASES_PROXY = 'IsAuthenticatedUseCasesProxy'
   static LOGOUT_USECASES_PROXY = 'LogoutUseCasesProxy'
+  static FORGOT_PASSWORD_USECASES_PROXY = 'ForgotPasswordUseCasesProxy'
 
   // Todo
   static GET_TODO_USECASES_PROXY = 'getTodoUsecasesProxy'
@@ -111,6 +114,35 @@ export class UsecasesProxyModule {
           useFactory: () => new UseCaseProxy(new LogoutUseCases()),
         },
         {
+          inject: [
+            LoggerService,
+            JwtTokenService,
+            EnvironmentConfigService,
+            DatabaseUserRepository,
+            ExceptionsService,
+            BcryptService,
+          ],
+          provide: UsecasesProxyModule.FORGOT_PASSWORD_USECASES_PROXY,
+          useFactory: (
+            logger: LoggerService,
+            jwtTokenService: JwtTokenService,
+            jwtConfig: EnvironmentConfigService,
+            userRepository: DatabaseUserRepository,
+            exceptionService: ExceptionsService,
+            bcryptService: BcryptService,
+          ) =>
+            new UseCaseProxy(
+              new ForgotPasswordUseCases(
+                logger,
+                jwtTokenService,
+                jwtConfig,
+                userRepository,
+                exceptionService,
+                bcryptService,
+              ),
+            ),
+        },
+        {
           inject: [DatabaseTodoRepository],
           provide: UsecasesProxyModule.GET_TODO_USECASES_PROXY,
           useFactory: (todoRepository: DatabaseTodoRepository) =>
@@ -148,14 +180,18 @@ export class UsecasesProxyModule {
         },
       ],
       exports: [
+        // TODO
         UsecasesProxyModule.GET_TODO_USECASES_PROXY,
         UsecasesProxyModule.GET_TODOS_USECASES_PROXY,
         UsecasesProxyModule.POST_TODO_USECASES_PROXY,
         UsecasesProxyModule.PUT_TODO_USECASES_PROXY,
         UsecasesProxyModule.DELETE_TODO_USECASES_PROXY,
+        // AUTH
         UsecasesProxyModule.LOGIN_USECASES_PROXY,
         UsecasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY,
         UsecasesProxyModule.LOGOUT_USECASES_PROXY,
+        UsecasesProxyModule.FORGOT_PASSWORD_USECASES_PROXY,
+        // USER
         UsecasesProxyModule.POST_USER_USECASES_PROXY,
         UsecasesProxyModule.GET_USERS_USECASES_PROXY,
       ],
