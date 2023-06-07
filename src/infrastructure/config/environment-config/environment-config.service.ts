@@ -67,8 +67,4 @@ export class EnvironmentConfigService
   getTrustedDomain(): string {
     return this.configService.get<string>('TRUSTED_DOMAIN')
   }
-
-  getNodeEnv(): string {
-    return this.configService.get<string>('NODE_ENV')
-  }
 }

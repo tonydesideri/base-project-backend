@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 import { PassportModule } from '@nestjs/passport'
 import { JwtModule } from '@nestjs/jwt'
 import { LoggerModule } from './infrastructure/logger/logger.module'
@@ -12,6 +12,7 @@ import { LocalStrategy } from './infrastructure/common/strategies/local.strategy
 import { JwtStrategy } from './infrastructure/common/strategies/jwt.strategy'
 import { JwtRefreshTokenStrategy } from './infrastructure/common/strategies/jwtRefresh.strategy'
 import { JwtForogotPasswordTokenStrategy } from './infrastructure/common/strategies/jwtForgotPassword.strategy'
+import { HttpsMiddleware } from './infrastructure/common/middlewares/https.middleware'
 
 @Module({
   imports: [
@@ -34,4 +35,9 @@ import { JwtForogotPasswordTokenStrategy } from './infrastructure/common/strateg
     JwtForogotPasswordTokenStrategy,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  // validating if the requests are using the https protocol
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(HttpsMiddleware).forRoutes('*')
+  }
+}
