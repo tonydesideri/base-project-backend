@@ -9,7 +9,7 @@ import {
   ResponseFormat,
   ResponseInterceptor,
 } from './infrastructure/common/interceptors/response.interceptor'
-import { LoggerService } from './infrastructure/logger/logger.service'
+import { LoggerService } from './infrastructure/services/logger/logger.service'
 
 async function bootstrap() {
   const logger = new LoggerService('Bootstrap')

@@ -10,9 +10,9 @@ import { LogoutUseCases } from '../../usecases/auth/logout.usecases'
 import { GetUsersUseCases } from './../../usecases/user/getUsers.usecases'
 import { AddUserUseCases } from 'src/usecases/user/addUser.usecases'
 
-import { ExceptionsModule } from '../exceptions/exceptions.module'
-import { LoggerModule } from '../logger/logger.module'
-import { LoggerService } from '../logger/logger.service'
+import { ExceptionsModule } from '../services/exceptions/exceptions.module'
+import { LoggerModule } from '../services/logger/logger.module'
+import { LoggerService } from '../services/logger/logger.service'
 
 import { BcryptModule } from '../services/bcrypt/bcrypt.module'
 import { BcryptService } from '../services/bcrypt/bcrypt.service'
@@ -27,7 +27,7 @@ import { EnvironmentConfigModule } from '../config/environment-config/environmen
 import { EnvironmentConfigService } from '../config/environment-config/environment-config.service'
 import { UseCaseProxy } from './usecases-proxy'
 import { ForgotPasswordUseCases } from 'src/usecases/auth/forgotPassword.usecases'
-import { ExceptionsService } from '../exceptions/exceptions.service'
+import { ExceptionsService } from '../services/exceptions/exceptions.service'
 
 @Module({
   imports: [

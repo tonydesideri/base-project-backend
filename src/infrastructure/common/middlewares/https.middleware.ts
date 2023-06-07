@@ -1,7 +1,6 @@
 import { Inject, Injectable, NestMiddleware } from '@nestjs/common'
 import { Request, Response, NextFunction } from 'express'
-import { ExceptionsService } from 'src/infrastructure/exceptions/exceptions.service'
-
+import { ExceptionsService } from 'src/infrastructure/services/exceptions/exceptions.service'
 @Injectable()
 export class HttpsMiddleware implements NestMiddleware {
   constructor(

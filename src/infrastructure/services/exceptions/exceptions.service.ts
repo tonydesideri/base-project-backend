@@ -9,8 +9,8 @@ import {
 import {
   IException,
   IFormatExceptionMessage,
-} from '../../domain/exceptions/exceptions.interface'
-import { TooManyRequestsException } from '../common/exceptions/tooManyRequestes.exception'
+} from '../../../domain/exceptions/exceptions.interface'
+import { TooManyRequestsException } from '../../common/exceptions/tooManyRequestes.exception'
 
 @Injectable()
 export class ExceptionsService implements IException {

@@ -7,8 +7,8 @@ import { UsecasesProxyModule } from '../../usecases-proxy/usecases-proxy.module'
 import { UseCaseProxy } from '../../usecases-proxy/usecases-proxy'
 import { LoginUseCases } from '../../../usecases/auth/login.usecases'
 import { ITokenPayload } from '../../../domain/model/auth'
-import { LoggerService } from '../../logger/logger.service'
-import { ExceptionsService } from '../../exceptions/exceptions.service'
+import { LoggerService } from '../../services/logger/logger.service'
+import { ExceptionsService } from '../../services/exceptions/exceptions.service'
 
 @Injectable()
 export class JwtRefreshTokenStrategy extends PassportStrategy(
