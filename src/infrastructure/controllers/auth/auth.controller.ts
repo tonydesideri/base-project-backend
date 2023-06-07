@@ -34,10 +34,10 @@ import { LoginUseCases } from '../../../usecases/auth/login.usecases'
 import { IsAuthenticatedUseCases } from '../../../usecases/auth/isAuthenticated.usecases'
 import { LogoutUseCases } from '../../../usecases/auth/logout.usecases'
 
-import { ApiResponseType } from '../../common/swagger/response.decorator'
-import { User } from 'src/infrastructure/common/decorators/user.decorator'
 import { ForgotPasswordUseCases } from 'src/usecases/auth/forgotPassword.usecases'
 import JwtForgotPasswordGuard from 'src/infrastructure/common/guards/jwtForgotPassword.guard'
+import { ApiResponseType } from 'src/infrastructure/common/decorators/swagger/swagger.decorator'
+import { User } from 'src/infrastructure/common/decorators/user/user.decorator'
 
 @Controller('auth')
 @ApiTags('auth')

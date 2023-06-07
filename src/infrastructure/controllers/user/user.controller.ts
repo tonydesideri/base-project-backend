@@ -9,10 +9,10 @@ import { UserPresenter } from './user.presenter'
 import { UsecasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module'
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy'
 import { AddUserUseCases } from 'src/usecases/user/addUser.usecases'
-import { ApiResponseType } from 'src/infrastructure/common/swagger/response.decorator'
 import { AddUserDto } from './user.dto'
 import { GetUsersUseCases } from 'src/usecases/user/getUsers.usecases'
 import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard'
+import { ApiResponseType } from 'src/infrastructure/common/decorators/swagger/swagger.decorator'
 
 @Controller('user')
 @ApiTags('user')

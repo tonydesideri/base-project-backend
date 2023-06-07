@@ -14,12 +14,12 @@ import { UseCaseProxy } from '../../usecases-proxy/usecases-proxy'
 import { UsecasesProxyModule } from '../../usecases-proxy/usecases-proxy.module'
 import { GetTodoUseCases } from '../../../usecases/todo/getTodo.usecases'
 import { TodoPresenter } from './todo.presenter'
-import { ApiResponseType } from '../../common/swagger/response.decorator'
 import { GetTodosUseCases } from '../../../usecases/todo/getTodos.usecases'
 import { UpdateTodoUseCases } from '../../../usecases/todo/updateTodo.usecases'
 import { AddTodoDto, UpdateTodoDto } from './todo.dto'
 import { DeleteTodoUseCases } from '../../../usecases/todo/deleteTodo.usecases'
 import { AddTodoUseCases } from '../../../usecases/todo/addTodo.usecases'
+import { ApiResponseType } from 'src/infrastructure/common/decorators/swagger/swagger.decorator'
 
 @Controller('todo')
 @ApiTags('todo')
