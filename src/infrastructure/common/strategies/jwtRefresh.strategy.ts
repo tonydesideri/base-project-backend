@@ -6,7 +6,7 @@ import { EnvironmentConfigService } from '../../config/environment-config/enviro
 import { UsecasesProxyModule } from '../../usecases-proxy/usecases-proxy.module'
 import { UseCaseProxy } from '../../usecases-proxy/usecases-proxy'
 import { LoginUseCases } from '../../../usecases/auth/login.usecases'
-import { TokenPayload } from '../../../domain/model/auth'
+import { ITokenPayload } from '../../../domain/model/auth'
 import { LoggerService } from '../../logger/logger.service'
 import { ExceptionsService } from '../../exceptions/exceptions.service'
 
@@ -33,7 +33,7 @@ export class JwtRefreshTokenStrategy extends PassportStrategy(
     })
   }
 
-  async validate(request: Request, payload: TokenPayload) {
+  async validate(request: Request, payload: ITokenPayload) {
     const refreshToken = request.cookies?.Refresh
     const user = this.loginUsecaseProxy
       .getInstance()

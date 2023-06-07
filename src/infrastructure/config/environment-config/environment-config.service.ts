@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { IEnviromentConfig } from 'src/domain/config/enviroment.interface'
-import { DatabaseConfig } from '../../../domain/config/database.interface'
-import { JWTConfig } from '../../../domain/config/jwt.interface'
+import { IDatabaseConfig } from '../../../domain/config/database.interface'
+import { IJwTConfig } from '../../../domain/config/jwt.interface'
 
 @Injectable()
 export class EnvironmentConfigService
-  implements DatabaseConfig, JWTConfig, IEnviromentConfig
+  implements IDatabaseConfig, IJwTConfig, IEnviromentConfig
 {
   constructor(private configService: ConfigService) {}
 

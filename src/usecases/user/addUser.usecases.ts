@@ -1,4 +1,4 @@
-import { UserRepository } from './../../domain/repositories/userRepository.interface'
+import { IUserRepository } from './../../domain/repositories/userRepository.interface'
 import { ILogger } from '../../domain/logger/logger.interface'
 import { UserM } from '../../domain/model/user'
 const bcrypt = require('bcrypt')
@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt')
 export class AddUserUseCases {
   constructor(
     private readonly logger: ILogger,
-    private readonly userRepository: UserRepository,
+    private readonly userRepository: IUserRepository,
   ) {}
 
   async execute(email: string, password: string): Promise<UserM> {

@@ -1,4 +1,4 @@
-export interface JWTConfig {
+export interface IJwTConfig {
   getJwtSecret(): string
   getJwtExpirationTime(): string
   getJwtRefreshSecret(): string

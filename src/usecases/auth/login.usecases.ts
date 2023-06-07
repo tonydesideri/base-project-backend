@@ -3,16 +3,16 @@ import {
   IJwtService,
   IJwtServicePayload,
 } from '../../domain/adapters/jwt.interface'
-import { JWTConfig } from '../../domain/config/jwt.interface'
+import { IJwTConfig } from '../../domain/config/jwt.interface'
 import { ILogger } from '../../domain/logger/logger.interface'
-import { UserRepository } from '../../domain/repositories/userRepository.interface'
+import { IUserRepository } from '../../domain/repositories/userRepository.interface'
 
 export class LoginUseCases {
   constructor(
     private readonly logger: ILogger,
     private readonly jwtTokenService: IJwtService,
-    private readonly jwtConfig: JWTConfig,
-    private readonly userRepository: UserRepository,
+    private readonly jwtConfig: IJwTConfig,
+    private readonly userRepository: IUserRepository,
     private readonly bcryptService: IBcryptService,
   ) {}
 

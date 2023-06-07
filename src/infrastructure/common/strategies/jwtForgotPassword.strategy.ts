@@ -5,7 +5,7 @@ import { Request } from 'express'
 import { EnvironmentConfigService } from '../../config/environment-config/environment-config.service'
 import { UsecasesProxyModule } from '../../usecases-proxy/usecases-proxy.module'
 import { UseCaseProxy } from '../../usecases-proxy/usecases-proxy'
-import { TokenPayload } from '../../../domain/model/auth'
+import { ITokenPayload } from '../../../domain/model/auth'
 import { LoggerService } from '../../logger/logger.service'
 import { ExceptionsService } from '../../exceptions/exceptions.service'
 import { ForgotPasswordUseCases } from 'src/usecases/auth/forgotPassword.usecases'
@@ -32,7 +32,7 @@ export class JwtForogotPasswordTokenStrategy extends PassportStrategy(
     })
   }
 
-  async validate(request: Request, payload: TokenPayload) {
+  async validate(request: Request, payload: ITokenPayload) {
     /**
      * Validação para apenas domínios confiáveis
      */

@@ -1,6 +1,6 @@
 import { UserM } from '../model/user'
 
-export interface UserRepository {
+export interface IUserRepository {
   insert(todo: UserM): Promise<UserM>
   getAll(): Promise<UserM[]>
   getById(id: number): Promise<UserM>

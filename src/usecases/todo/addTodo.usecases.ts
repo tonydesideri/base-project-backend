@@ -1,11 +1,11 @@
 import { ILogger } from '../../domain/logger/logger.interface'
 import { TodoM } from '../../domain/model/todo'
-import { TodoRepository } from '../../domain/repositories/todoRepository.interface'
+import { ITodoRepository } from '../../domain/repositories/todoRepository.interface'
 
 export class AddTodoUseCases {
   constructor(
     private readonly logger: ILogger,
-    private readonly todoRepository: TodoRepository,
+    private readonly todoRepository: ITodoRepository,
   ) {}
 
   async execute(content: string): Promise<TodoM> {
