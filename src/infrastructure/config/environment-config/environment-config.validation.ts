@@ -57,6 +57,9 @@ class EnvironmentVariables {
 
   @IsBoolean()
   DATABASE_SYNCHRONIZE: boolean
+
+  @IsString()
+  TRUSTED_DOMAIN: string
 }
 
 export function validate(config: Record<string, unknown>) {

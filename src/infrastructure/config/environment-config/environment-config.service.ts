@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import { IEnviromentConfig } from 'src/domain/config/enviroment.interface'
 import { DatabaseConfig } from '../../../domain/config/database.interface'
 import { JWTConfig } from '../../../domain/config/jwt.interface'
 
 @Injectable()
-export class EnvironmentConfigService implements DatabaseConfig, JWTConfig {
+export class EnvironmentConfigService
+  implements DatabaseConfig, JWTConfig, IEnviromentConfig
+{
   constructor(private configService: ConfigService) {}
 
   getJwtSecret(): string {
@@ -59,5 +62,13 @@ export class EnvironmentConfigService implements DatabaseConfig, JWTConfig {
 
   getDatabaseSync(): boolean {
     return this.configService.get<boolean>('DATABASE_SYNCHRONIZE')
+  }
+
+  getTrustedDomain(): string {
+    return this.configService.get<string>('TRUSTED_DOMAIN')
+  }
+
+  getNodeEnv(): string {
+    return this.configService.get<string>('NODE_ENV')
   }
 }
