@@ -7,6 +7,7 @@ import { UseCaseProxy } from '../../usecases-proxy/usecases-proxy'
 import { LoginUseCases } from '../../../usecases/auth/login.usecases'
 import { ExceptionsService } from '../../services/exceptions/exceptions.service'
 import { LoggerService } from '../../services/logger/logger.service'
+import { authErrorMessages } from '../constants/auth.contant'
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -32,7 +33,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       .validateUserForJWTStragtegy(payload.username)
     if (!user) {
       this.logger.warn('JwtStrategy', `User not found`)
-      this.exceptionService.UnauthorizedException({ message: 'User not found' })
+      this.exceptionService.UnauthorizedException({
+        message: authErrorMessages.USER_NOT_FOUND,
+      })
     }
     return user
   }

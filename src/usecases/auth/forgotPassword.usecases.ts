@@ -2,6 +2,7 @@ import { IBcryptService } from 'src/domain/adapters/bcrypt.interface'
 import { IException } from 'src/domain/adapters/exceptions.interface'
 import { ILoggerService } from 'src/domain/adapters/logger.interface'
 import { IMailService } from 'src/domain/adapters/mail.interface'
+import { authErrorMessages } from 'src/infrastructure/common/constants/auth.contant'
 import {
   IJwtService,
   IJwtServicePayload,
@@ -29,7 +30,7 @@ export class ForgotPasswordUseCases {
     if (!user) {
       // Caso o e-mail não esteja associado a nenhuma conta
       this.exceptionService.NotFoundException({
-        message: 'User not found',
+        message: authErrorMessages.USER_NOT_FOUND,
       })
     }
     // Gerar um token para a redefinição de senha

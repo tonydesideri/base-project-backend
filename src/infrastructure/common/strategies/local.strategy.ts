@@ -6,6 +6,7 @@ import { UseCaseProxy } from '../../usecases-proxy/usecases-proxy'
 import { LoginUseCases } from '../../../usecases/auth/login.usecases'
 import { LoggerService } from '../../services/logger/logger.service'
 import { ExceptionsService } from '../../services/exceptions/exceptions.service'
+import { authErrorMessages } from '../constants/auth.contant'
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
@@ -26,7 +27,9 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
         'LocalStrategy',
         `E-mail or password is missing, BadRequestException`,
       )
-      this.exceptionService.UnauthorizedException()
+      this.exceptionService.UnauthorizedException({
+        message: authErrorMessages.EMAIL_OR_PASSWORD_MISSING,
+      })
     }
     const user = await this.loginUsecaseProxy
       .getInstance()
@@ -34,7 +37,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     if (!user) {
       this.logger.warn('LocalStrategy', `Invalid e-mail or password`)
       this.exceptionService.UnauthorizedException({
-        message: 'Invalid e-mail or password.',
+        message: authErrorMessages.INVALID_EMAIL_OR_PASSWPRD,
       })
     }
     return user

@@ -9,6 +9,7 @@ import { ITokenPayload } from '../../../domain/model/auth'
 import { LoggerService } from '../../services/logger/logger.service'
 import { ExceptionsService } from '../../services/exceptions/exceptions.service'
 import { ForgotPasswordUseCases } from 'src/usecases/auth/forgotPassword.usecases'
+import { authErrorMessages } from '../constants/auth.contant'
 
 @Injectable()
 export class JwtForogotPasswordTokenStrategy extends PassportStrategy(
@@ -47,7 +48,7 @@ export class JwtForogotPasswordTokenStrategy extends PassportStrategy(
         `Domain is not valid for this request`,
       )
       this.exceptionService.UnauthorizedException({
-        message: 'Domain is not valid for this request',
+        message: authErrorMessages.DOMAIN_NOT_VALID_REQUEST,
       })
     }
 
@@ -69,7 +70,7 @@ export class JwtForogotPasswordTokenStrategy extends PassportStrategy(
         `User not found or hash not correct`,
       )
       this.exceptionService.UnauthorizedException({
-        message: 'User not found or hash not correct',
+        message: authErrorMessages.USER_NOT_FOUND_OR_HASH_NOT_CORRET,
       })
     }
     return user
