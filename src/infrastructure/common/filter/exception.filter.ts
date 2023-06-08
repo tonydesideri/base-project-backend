@@ -10,10 +10,11 @@ import { LoggerService } from '../../services/logger/logger.service'
 @Catch()
 export class AllExceptionFilter implements ExceptionFilter {
   constructor(private readonly logger: LoggerService) {}
-  catch(exception: HttpException, host: ArgumentsHost) {
+
+  catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp()
     const response = ctx.getResponse()
-    const request: any = ctx.getRequest()
+    const request = ctx.getRequest()
 
     const status =
       exception instanceof HttpException
@@ -21,15 +22,20 @@ export class AllExceptionFilter implements ExceptionFilter {
         : HttpStatus.INTERNAL_SERVER_ERROR
 
     const message =
-      exception instanceof HttpException ? exception.message : 'Internal error'
+      exception instanceof HttpException
+        ? exception.message
+        : 'Internal Server Error'
+
+    const errors =
+      exception instanceof HttpException
+        ? this.extractValidationErrors(exception.getResponse())
+        : null
 
     const responseData = {
-      ...{
-        statusCode: status,
-        timestamp: new Date().toISOString(),
-        path: request.url,
-      },
-      message,
+      statusCode: status,
+      timestamp: new Date().toISOString(),
+      path: request.url,
+      message: errors || [message],
     }
 
     this.logMessage(request, message, status, exception)
@@ -43,7 +49,7 @@ export class AllExceptionFilter implements ExceptionFilter {
     status: number,
     exception: any,
   ) {
-    if (status === 500) {
+    if (status >= 500) {
       this.logger.error(
         `End Request for ${request.path}`,
         `method=${request.method} status=${status} message=${message || null}`,
@@ -55,5 +61,20 @@ export class AllExceptionFilter implements ExceptionFilter {
         `method=${request.method} status=${status} message=${message || null}`,
       )
     }
+  }
+
+  private extractValidationErrors(response: any): string[] {
+    const validationErrors: string[] = []
+    const errorObject = response.message
+
+    if (Array.isArray(errorObject)) {
+      errorObject.forEach((errorMessage: string) => {
+        validationErrors.push(errorMessage)
+      })
+    } else {
+      validationErrors.push(errorObject)
+    }
+
+    return validationErrors
   }
 }
