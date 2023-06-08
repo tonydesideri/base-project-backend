@@ -19,7 +19,7 @@ import { UpdateTodoUseCases } from '../../../usecases/todo/updateTodo.usecases'
 import { AddTodoDto, UpdateTodoDto } from './todo.dto'
 import { DeleteTodoUseCases } from '../../../usecases/todo/deleteTodo.usecases'
 import { AddTodoUseCases } from '../../../usecases/todo/addTodo.usecases'
-import { ApiResponseType } from 'src/infrastructure/common/decorators/swagger/swagger.decorator'
+import { ApiResponseType } from 'src/infrastructure/common/decorators/swagger.decorator'
 
 @Controller('todo')
 @ApiTags('todo')

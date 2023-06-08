@@ -12,7 +12,7 @@ import { AddUserUseCases } from 'src/usecases/user/addUser.usecases'
 import { AddUserDto } from './user.dto'
 import { GetUsersUseCases } from 'src/usecases/user/getUsers.usecases'
 import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard'
-import { ApiResponseType } from 'src/infrastructure/common/decorators/swagger/swagger.decorator'
+import { ApiResponseType } from 'src/infrastructure/common/decorators/swagger.decorator'
 
 @Controller('user')
 @ApiTags('user')
