@@ -46,14 +46,15 @@ export class ForgotPasswordUseCases {
       body: encodedLink,
       subject: 'Redefinição de senha',
       to: email,
+      template: 'reset-password',
+      context: {
+        email,
+        link: encodedLink,
+      },
     })
-
-    // Aqui você pode enviar um e-mail com um link para redefinir a senha, por exemplo.
-    // Implemente a lógica necessária de acordo com sua aplicação.
 
     return {
       message: 'Instruções para redefinição de senha enviadas por e-mail.',
-      link: encodedLink,
     }
   }
 

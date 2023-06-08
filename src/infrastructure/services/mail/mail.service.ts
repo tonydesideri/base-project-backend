@@ -10,7 +10,11 @@ export class MailService implements IMailService {
     await this.mailerService.sendMail({
       to: mail.to,
       subject: mail.subject,
-      html: `<h1>Ola mundo</h1>`,
+      template: mail.template,
+      context: {
+        email: mail.context.email,
+        link: mail.context.link,
+      },
     })
   }
 }
