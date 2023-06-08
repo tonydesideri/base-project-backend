@@ -1,4 +1,5 @@
 import { IBcryptService } from 'src/domain/adapters/bcrypt.interface'
+import { IMailService } from 'src/domain/adapters/mail.interface'
 import { IException } from 'src/domain/exceptions/exceptions.interface'
 import {
   IJwtService,
@@ -16,6 +17,7 @@ export class ForgotPasswordUseCases {
     private readonly userRepository: IUserRepository,
     private readonly exceptionService: IException,
     private readonly bcryptService: IBcryptService,
+    private readonly mailService: IMailService,
   ) {}
 
   async getEmailForgotPasswordStrategy(email: string) {
@@ -39,6 +41,12 @@ export class ForgotPasswordUseCases {
       email,
       forgotPasswordToken,
     )
+
+    this.mailService.sendMail({
+      body: encodedLink,
+      subject: 'Redefinição de senha',
+      to: email,
+    })
 
     // Aqui você pode enviar um e-mail com um link para redefinir a senha, por exemplo.
     // Implemente a lógica necessária de acordo com sua aplicação.

@@ -28,6 +28,8 @@ import { EnvironmentConfigService } from '../config/environment-config/environme
 import { UseCaseProxy } from './usecases-proxy'
 import { ForgotPasswordUseCases } from 'src/usecases/auth/forgotPassword.usecases'
 import { ExceptionsService } from '../services/exceptions/exceptions.service'
+import { MailModule } from '../services/mail/mail.module'
+import { MailService } from '../services/mail/mail.service'
 
 @Module({
   imports: [
@@ -37,6 +39,7 @@ import { ExceptionsService } from '../services/exceptions/exceptions.service'
     EnvironmentConfigModule,
     RepositoriesModule,
     ExceptionsModule,
+    MailModule,
   ],
 })
 export class UsecasesProxyModule {
@@ -121,6 +124,7 @@ export class UsecasesProxyModule {
             DatabaseUserRepository,
             ExceptionsService,
             BcryptService,
+            MailService,
           ],
           provide: UsecasesProxyModule.FORGOT_PASSWORD_USECASES_PROXY,
           useFactory: (
@@ -130,6 +134,7 @@ export class UsecasesProxyModule {
             userRepository: DatabaseUserRepository,
             exceptionService: ExceptionsService,
             bcryptService: BcryptService,
+            mailService: MailService,
           ) =>
             new UseCaseProxy(
               new ForgotPasswordUseCases(
@@ -139,6 +144,7 @@ export class UsecasesProxyModule {
                 userRepository,
                 exceptionService,
                 bcryptService,
+                mailService,
               ),
             ),
         },

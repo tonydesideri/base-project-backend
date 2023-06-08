@@ -13,6 +13,7 @@ import { JwtStrategy } from './infrastructure/common/strategies/jwt.strategy'
 import { JwtRefreshTokenStrategy } from './infrastructure/common/strategies/jwtRefresh.strategy'
 import { JwtForogotPasswordTokenStrategy } from './infrastructure/common/strategies/jwtForgotPassword.strategy'
 import { HttpsMiddleware } from './infrastructure/common/middlewares/https.middleware'
+import { MailModule } from './infrastructure/services/mail/mail.module'
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { HttpsMiddleware } from './infrastructure/common/middlewares/https.middl
     BcryptModule,
     JwtServiceModule,
     EnvironmentConfigModule,
+    MailModule,
   ],
   providers: [
     LocalStrategy,

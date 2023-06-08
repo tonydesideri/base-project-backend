@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { IEnviromentConfig } from 'src/domain/config/enviroment.interface'
+import { ISmtpConfig } from 'src/domain/config/smtp.interface'
 import { IDatabaseConfig } from '../../../domain/config/database.interface'
 import { IJwTConfig } from '../../../domain/config/jwt.interface'
 
 @Injectable()
 export class EnvironmentConfigService
-  implements IDatabaseConfig, IJwTConfig, IEnviromentConfig
+  implements IDatabaseConfig, IJwTConfig, IEnviromentConfig, ISmtpConfig
 {
   constructor(private configService: ConfigService) {}
 
@@ -66,5 +67,21 @@ export class EnvironmentConfigService
 
   getTrustedDomain(): string {
     return this.configService.get<string>('TRUSTED_DOMAIN')
+  }
+
+  getSmtpHost(): string {
+    return this.configService.get<string>('SMTP_HOST')
+  }
+
+  getSmtpPort(): number {
+    return this.configService.get<number>('SMTP_PORT')
+  }
+
+  getSmtpUser(): string {
+    return this.configService.get<string>('SMTP_USER')
+  }
+
+  getSmtpPass(): string {
+    return this.configService.get<string>('SMTP_PASS')
   }
 }

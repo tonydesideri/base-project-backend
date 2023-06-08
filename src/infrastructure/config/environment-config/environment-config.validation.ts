@@ -60,9 +60,22 @@ class EnvironmentVariables {
 
   @IsString()
   TRUSTED_DOMAIN: string
+
+  @IsString()
+  SMTP_HOST: string
+
+  @IsNumber()
+  SMTP_PORT: number
+
+  @IsString()
+  SMTP_USER: string
+
+  @IsString()
+  SMTP_PASS: string
 }
 
 export function validate(config: Record<string, unknown>) {
+  // console.log(config)
   const validatedConfig = plainToInstance(EnvironmentVariables, config, {
     enableImplicitConversion: true,
   })
