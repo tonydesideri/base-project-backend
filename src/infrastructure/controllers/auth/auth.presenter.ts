@@ -4,3 +4,8 @@ export class IsAuthPresenter {
   @ApiProperty()
   email: string
 }
+
+export class IsForgotPasswprdPresenter {
+  @ApiProperty()
+  message: string
+}

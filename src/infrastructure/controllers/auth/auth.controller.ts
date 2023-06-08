@@ -8,10 +8,9 @@ import {
   UseGuards,
 } from '@nestjs/common'
 import {
-  ApiBearerAuth,
   ApiBody,
+  ApiCookieAuth,
   ApiExtraModels,
-  ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger'
@@ -22,7 +21,7 @@ import {
   ForgotPasswordDto,
   ResetPasswordDto,
 } from './auth-dto.class'
-import { IsAuthPresenter } from './auth.presenter'
+import { IsAuthPresenter, IsForgotPasswprdPresenter } from './auth.presenter'
 
 import { JwtRefreshGuard } from '../../common/guards/jwtRefresh.guard'
 import { JwtAuthGuard } from '../../common/guards/jwtAuth.guard'
@@ -61,9 +60,7 @@ export class AuthController {
 
   @Post('login')
   @UseGuards(LoginGuard)
-  @ApiBearerAuth()
   @ApiBody({ type: AuthLoginDto })
-  @ApiOperation({ description: 'login' })
   async login(@Body() auth: AuthLoginDto, @Req() request: Request) {
     const accessTokenCookie = await this.loginUsecaseProxy
       .getInstance()
@@ -85,7 +82,7 @@ export class AuthController {
 
   @Post('logout')
   @UseGuards(JwtAuthGuard)
-  @ApiOperation({ description: 'logout' })
+  @ApiCookieAuth()
   async logout(@Req() request: Request, @User() auth: IsAuthPresenter) {
     const cookie = await this.logoutUsecaseProxy
       .getInstance()
@@ -95,9 +92,8 @@ export class AuthController {
   }
 
   @Get('is_authenticated')
-  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @ApiOperation({ description: 'is_authenticated' })
+  @ApiCookieAuth()
   @ApiResponseType(IsAuthPresenter, false)
   async isAuthenticated(@User() auth: IsAuthPresenter) {
     const user = await this.isAuthUsecaseProxy.getInstance().execute(auth.email)
@@ -108,7 +104,7 @@ export class AuthController {
 
   @Get('refresh')
   @UseGuards(JwtRefreshGuard)
-  @ApiBearerAuth()
+  @ApiCookieAuth()
   async refresh(@Req() request: Request, @User() auth: IsAuthPresenter) {
     /**
      * Adicionando um novo Authentication cookie no header da requisição
@@ -127,15 +123,19 @@ export class AuthController {
   }
 
   @Post('forgot-password')
+  @ApiResponseType(IsForgotPasswprdPresenter, false)
   async forgotPassword(@Body() body: ForgotPasswordDto) {
     const response = await this.fotgotPasswordUsecaseProxy
       .getInstance()
       .getEmailForgotPasswordStrategy(body.email)
-    return response
+    const presenter = new IsForgotPasswprdPresenter()
+    presenter.message = response.message
+    return presenter
   }
 
   @Post('reset-password')
   @UseGuards(JwtForgotPasswordGuard)
+  @ApiCookieAuth()
   async resetPassword(
     @Body() body: ResetPasswordDto,
     @User() auth: IsAuthPresenter,

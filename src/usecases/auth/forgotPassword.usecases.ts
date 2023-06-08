@@ -62,8 +62,6 @@ export class ForgotPasswordUseCases {
     email: string,
     password: string,
   ) {
-    // validar prolítica de senha
-
     // Cria um hash para a nova senha
     const currentHashedPassword = await this.bcryptService.hash(password)
 
