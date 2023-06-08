@@ -24,7 +24,7 @@ import {
 } from './auth-dto.class'
 import { IsAuthPresenter } from './auth.presenter'
 
-import JwtRefreshGuard from '../../common/guards/jwtRefresh.guard'
+import { JwtRefreshGuard } from '../../common/guards/jwtRefresh.guard'
 import { JwtAuthGuard } from '../../common/guards/jwtAuth.guard'
 import { LoginGuard } from '../../common/guards/login.guard'
 
@@ -35,7 +35,7 @@ import { IsAuthenticatedUseCases } from '../../../usecases/auth/isAuthenticated.
 import { LogoutUseCases } from '../../../usecases/auth/logout.usecases'
 
 import { ForgotPasswordUseCases } from 'src/usecases/auth/forgotPassword.usecases'
-import JwtForgotPasswordGuard from 'src/infrastructure/common/guards/jwtForgotPassword.guard'
+import { JwtForgotPasswordGuard } from 'src/infrastructure/common/guards/jwtForgotPassword.guard'
 import { ApiResponseType } from 'src/infrastructure/common/decorators/swagger/swagger.decorator'
 import { User } from 'src/infrastructure/common/decorators/user/user.decorator'
 
