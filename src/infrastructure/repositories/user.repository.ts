@@ -89,6 +89,17 @@ export class DatabaseUserRepository implements IUserRepository {
     )
   }
 
+  async invalidRefreshToken(email: string): Promise<void> {
+    await this.userEntityRepository.update(
+      {
+        email,
+      },
+      {
+        hach_refresh_token: null,
+      },
+    )
+  }
+
   private toUser(adminUserEntity: User): UserM {
     const adminUser: UserM = new UserM()
 

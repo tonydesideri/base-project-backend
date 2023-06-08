@@ -86,8 +86,10 @@ export class AuthController {
   @Post('logout')
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ description: 'logout' })
-  async logout(@Req() request: Request) {
-    const cookie = await this.logoutUsecaseProxy.getInstance().execute()
+  async logout(@Req() request: Request, @User() auth: IsAuthPresenter) {
+    const cookie = await this.logoutUsecaseProxy
+      .getInstance()
+      .execute(auth.email)
     request.res.setHeader('Set-Cookie', cookie)
     return 'Logout successful'
   }

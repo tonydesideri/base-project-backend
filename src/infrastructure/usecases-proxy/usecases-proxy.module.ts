@@ -112,9 +112,10 @@ export class UsecasesProxyModule {
             new UseCaseProxy(new IsAuthenticatedUseCases(userRepo)),
         },
         {
-          inject: [],
+          inject: [DatabaseUserRepository],
           provide: UsecasesProxyModule.LOGOUT_USECASES_PROXY,
-          useFactory: () => new UseCaseProxy(new LogoutUseCases()),
+          useFactory: (userRepository: DatabaseUserRepository) =>
+            new UseCaseProxy(new LogoutUseCases(userRepository)),
         },
         {
           inject: [
