@@ -1,9 +1,9 @@
-import { ILogger } from '../../domain/logger/logger.interface'
+import { ILoggerService } from 'src/domain/adapters/logger.interface'
 import { ITodoRepository } from '../../domain/repositories/todoRepository.interface'
 
 export class DeleteTodoUseCases {
   constructor(
-    private readonly logger: ILogger,
+    private readonly logger: ILoggerService,
     private readonly todoRepository: ITodoRepository,
   ) {}
 

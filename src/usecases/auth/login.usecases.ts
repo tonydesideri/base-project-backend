@@ -1,15 +1,15 @@
+import { ILoggerService } from 'src/domain/adapters/logger.interface'
 import { IBcryptService } from '../../domain/adapters/bcrypt.interface'
 import {
   IJwtService,
   IJwtServicePayload,
 } from '../../domain/adapters/jwt.interface'
 import { IJwTConfig } from '../../domain/config/jwt.interface'
-import { ILogger } from '../../domain/logger/logger.interface'
 import { IUserRepository } from '../../domain/repositories/userRepository.interface'
 
 export class LoginUseCases {
   constructor(
-    private readonly logger: ILogger,
+    private readonly logger: ILoggerService,
     private readonly jwtTokenService: IJwtService,
     private readonly jwtConfig: IJwTConfig,
     private readonly userRepository: IUserRepository,

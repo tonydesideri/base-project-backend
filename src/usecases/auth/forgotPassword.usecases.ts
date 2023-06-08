@@ -1,17 +1,17 @@
 import { IBcryptService } from 'src/domain/adapters/bcrypt.interface'
+import { IException } from 'src/domain/adapters/exceptions.interface'
+import { ILoggerService } from 'src/domain/adapters/logger.interface'
 import { IMailService } from 'src/domain/adapters/mail.interface'
-import { IException } from 'src/domain/exceptions/exceptions.interface'
 import {
   IJwtService,
   IJwtServicePayload,
 } from '../../domain/adapters/jwt.interface'
 import { IJwTConfig } from '../../domain/config/jwt.interface'
-import { ILogger } from '../../domain/logger/logger.interface'
 import { IUserRepository } from '../../domain/repositories/userRepository.interface'
 
 export class ForgotPasswordUseCases {
   constructor(
-    private readonly logger: ILogger,
+    private readonly logger: ILoggerService,
     private readonly jwtTokenService: IJwtService,
     private readonly jwtConfig: IJwTConfig,
     private readonly userRepository: IUserRepository,

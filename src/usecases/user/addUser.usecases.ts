@@ -1,11 +1,11 @@
 import { IUserRepository } from './../../domain/repositories/userRepository.interface'
-import { ILogger } from '../../domain/logger/logger.interface'
 import { UserM } from '../../domain/model/user'
+import { ILoggerService } from 'src/domain/adapters/logger.interface'
 const bcrypt = require('bcrypt')
 
 export class AddUserUseCases {
   constructor(
-    private readonly logger: ILogger,
+    private readonly logger: ILoggerService,
     private readonly userRepository: IUserRepository,
   ) {}
 
