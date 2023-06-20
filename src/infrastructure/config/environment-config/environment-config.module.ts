@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common'
-import { ConfigModule } from '@nestjs/config'
-import { EnvironmentConfigService } from './environment-config.service'
-import { validate } from './environment-config.validation'
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { EnvironmentConfigService } from './environment-config.service';
+import { validate } from './environment-config.validation';
 
 @Module({
   imports: [
@@ -11,10 +11,10 @@ import { validate } from './environment-config.validation'
         process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'test'
       ),
       isGlobal: true,
-      validate,
-    }),
+      validate
+    })
   ],
   providers: [EnvironmentConfigService],
-  exports: [EnvironmentConfigService],
+  exports: [EnvironmentConfigService]
 })
 export class EnvironmentConfigModule {}

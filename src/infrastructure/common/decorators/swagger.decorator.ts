@@ -1,10 +1,10 @@
-import { applyDecorators, Type } from '@nestjs/common'
-import { ApiOkResponse, getSchemaPath } from '@nestjs/swagger'
-import { ResponseFormat } from '../interceptors/response.interceptor'
+import { applyDecorators, Type } from '@nestjs/common';
+import { ApiOkResponse, getSchemaPath } from '@nestjs/swagger';
+import { ResponseFormat } from '../interceptors/response.interceptor';
 
 export const ApiResponseType = <TModel extends Type<any>>(
   model: TModel,
-  isArray: boolean,
+  isArray: boolean
 ) => {
   return applyDecorators(
     ApiOkResponse({
@@ -15,16 +15,16 @@ export const ApiResponseType = <TModel extends Type<any>>(
           {
             properties: {
               data: {
-                $ref: getSchemaPath(model),
+                $ref: getSchemaPath(model)
               },
               isArray: {
                 type: 'boolean',
-                default: isArray,
-              },
-            },
-          },
-        ],
-      },
-    }),
-  )
-}
+                default: isArray
+              }
+            }
+          }
+        ]
+      }
+    })
+  );
+};

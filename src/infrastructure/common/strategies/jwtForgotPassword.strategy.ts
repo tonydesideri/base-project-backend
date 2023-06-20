@@ -1,27 +1,27 @@
-import { ExtractJwt, Strategy } from 'passport-jwt'
-import { PassportStrategy } from '@nestjs/passport'
-import { Inject, Injectable } from '@nestjs/common'
-import { Request } from 'express'
-import { EnvironmentConfigService } from '../../config/environment-config/environment-config.service'
-import { UsecasesProxyModule } from '../../usecases-proxy/usecases-proxy.module'
-import { UseCaseProxy } from '../../usecases-proxy/usecases-proxy'
-import { ITokenPayload } from '../../../domain/model/auth'
-import { LoggerService } from '../../services/logger/logger.service'
-import { ExceptionsService } from '../../services/exceptions/exceptions.service'
-import { ForgotPasswordUseCases } from 'src/usecases/auth/forgotPassword.usecases'
-import { authErrorMessages } from '../constants/auth.contant'
+import { ExtractJwt, Strategy } from 'passport-jwt';
+import { PassportStrategy } from '@nestjs/passport';
+import { Inject, Injectable } from '@nestjs/common';
+import { Request } from 'express';
+import { EnvironmentConfigService } from '../../config/environment-config/environment-config.service';
+import { UsecasesProxyModule } from '../../usecases-proxy/usecases-proxy.module';
+import { UseCaseProxy } from '../../usecases-proxy/usecases-proxy';
+import { ITokenPayload } from '../../../domain/model/auth';
+import { LoggerService } from '../../services/logger/logger.service';
+import { ExceptionsService } from '../../services/exceptions/exceptions.service';
+import { ForgotPasswordUseCases } from 'src/usecases/auth/forgotPassword.usecases';
+import { authErrorMessages } from '../constants/auth.contant';
 
 @Injectable()
 export class JwtForogotPasswordTokenStrategy extends PassportStrategy(
   Strategy,
-  'jwt-forgot-password-token',
+  'jwt-forgot-password-token'
 ) {
   constructor(
     private readonly configService: EnvironmentConfigService,
     @Inject(UsecasesProxyModule.FORGOT_PASSWORD_USECASES_PROXY)
     private readonly forgotPasswordUsecaseProxy: UseCaseProxy<ForgotPasswordUseCases>,
     private readonly logger: LoggerService,
-    private readonly exceptionService: ExceptionsService,
+    private readonly exceptionService: ExceptionsService
   ) {
     super({
       /**
@@ -29,50 +29,50 @@ export class JwtForogotPasswordTokenStrategy extends PassportStrategy(
        */
       jwtFromRequest: ExtractJwt.fromUrlQueryParameter('token'),
       secretOrKey: configService.getJwtForgotPasswordSecret(),
-      passReqToCallback: true,
-    })
+      passReqToCallback: true
+    });
   }
 
   async validate(request: Request, payload: ITokenPayload) {
     /**
      * Validação para apenas domínios confiáveis
      */
-    const host = request.get('Host')
+    const host = request.get('Host');
     const isValidateHost = this.forgotPasswordUsecaseProxy
       .getInstance()
-      .validateDomainForgotPasswordLink(host)
+      .validateDomainForgotPasswordLink(host);
 
     if (!isValidateHost) {
       this.logger.warn(
         'JwtForgotPasswordStrategy',
-        `Domain is not valid for this request`,
-      )
+        `Domain is not valid for this request`
+      );
       this.exceptionService.UnauthorizedException({
-        message: authErrorMessages.DOMAIN_NOT_VALID_REQUEST,
-      })
+        message: authErrorMessages.DOMAIN_NOT_VALID_REQUEST
+      });
     }
 
     /**
      * Validação para saber se o usuário existe e
      * Validação para saber se o hash salvo no banco é válido
      */
-    const { token: forgotPasswordToken } = request.query
+    const { token: forgotPasswordToken } = request.query;
     const user = await this.forgotPasswordUsecaseProxy
       .getInstance()
       .getUserIfForgotPasswordTokenMatches(
         String(forgotPasswordToken),
-        payload.email,
-      )
+        payload.email
+      );
 
     if (!user) {
       this.logger.warn(
         'JwtForgotPasswordStrategy',
-        `User not found or hash not correct`,
-      )
+        `User not found or hash not correct`
+      );
       this.exceptionService.UnauthorizedException({
-        message: authErrorMessages.USER_NOT_FOUND_OR_HASH_NOT_CORRET,
-      })
+        message: authErrorMessages.USER_NOT_FOUND_OR_HASH_NOT_CORRET
+      });
     }
-    return user
+    return user;
   }
 }

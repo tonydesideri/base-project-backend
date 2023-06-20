@@ -1,9 +1,9 @@
-import { DataSource } from 'typeorm'
-import * as dotenv from 'dotenv'
-import { join } from 'path'
+import { DataSource } from 'typeorm';
+import * as dotenv from 'dotenv';
+import { join } from 'path';
 
 if (process.env.NODE_ENV === 'local') {
-  dotenv.config({ path: './env/local.env' })
+  dotenv.config({ path: './env/local.env' });
 }
 
 const config = new DataSource({
@@ -27,12 +27,12 @@ const config = new DataSource({
       '..',
       'database',
       'migrations',
-      '/**/*{.ts,.js}',
-    ),
-  ],
+      '/**/*{.ts,.js}'
+    )
+  ]
   // ssl: {
   //   rejectUnauthorized: false,
   // },
-})
+});
 
-export default config
+export default config;

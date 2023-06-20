@@ -1,128 +1,128 @@
-import { Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
-import { UserM } from '../../domain/model/user'
-import { IUserRepository } from '../../domain/repositories/userRepository.interface'
-import { User } from '../entities/user.entity'
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { UserM } from '../../domain/model/user';
+import { IUserRepository } from '../../domain/repositories/userRepository.interface';
+import { User } from '../entities/user.entity';
 
 @Injectable()
 export class DatabaseUserRepository implements IUserRepository {
   constructor(
     @InjectRepository(User)
-    private readonly userEntityRepository: Repository<User>,
+    private readonly userEntityRepository: Repository<User>
   ) {}
 
   async insert(user: UserM): Promise<UserM> {
-    const userEntity = this.toUserEntity(user)
-    const result = await this.userEntityRepository.insert(userEntity)
-    return this.toUser(result.generatedMaps[0] as User)
+    const userEntity = this.toUserEntity(user);
+    const result = await this.userEntityRepository.insert(userEntity);
+    return this.toUser(result.generatedMaps[0] as User);
   }
 
   async getAll(): Promise<UserM[]> {
-    const usersEntity = await this.userEntityRepository.find()
-    return usersEntity.map((usersEntity) => this.toUser(usersEntity))
+    const usersEntity = await this.userEntityRepository.find();
+    return usersEntity.map((usersEntity) => this.toUser(usersEntity));
   }
 
   async getById(id: number): Promise<UserM> {
     const userEntity = await this.userEntityRepository.findOneOrFail({
       where: {
-        id,
-      },
-    })
-    return this.toUser(userEntity)
+        id
+      }
+    });
+    return this.toUser(userEntity);
   }
 
   async updateRefreshToken(email: string, refreshToken: string): Promise<void> {
     await this.userEntityRepository.update(
       {
-        email,
+        email
       },
-      { hach_refresh_token: refreshToken },
-    )
+      { hach_refresh_token: refreshToken }
+    );
   }
 
   async getUserByEmail(email: string): Promise<UserM> {
     const adminUserEntity = await this.userEntityRepository.findOne({
       where: {
-        email,
-      },
-    })
+        email
+      }
+    });
     if (!adminUserEntity) {
-      return null
+      return null;
     }
-    return this.toUser(adminUserEntity)
+    return this.toUser(adminUserEntity);
   }
 
   async updateLastLogin(email: string): Promise<void> {
     await this.userEntityRepository.update(
       {
-        email,
+        email
       },
-      { last_login: () => 'CURRENT_TIMESTAMP' },
-    )
+      { last_login: () => 'CURRENT_TIMESTAMP' }
+    );
   }
 
   async updateForgotPasswordToken(
     email: string,
-    forgotPasswordToken: string,
+    forgotPasswordToken: string
   ): Promise<void> {
     await this.userEntityRepository.update(
       {
-        email,
+        email
       },
-      { hach_forgot_password_token: forgotPasswordToken },
-    )
+      { hach_forgot_password_token: forgotPasswordToken }
+    );
   }
 
   async updatePasswordAndInvalidForgotPasswordToken(
     email: string,
-    hashPassword: string,
+    hashPassword: string
   ): Promise<void> {
     await this.userEntityRepository.update(
       {
-        email,
+        email
       },
       {
         password: hashPassword,
-        hach_forgot_password_token: null,
-      },
-    )
+        hach_forgot_password_token: null
+      }
+    );
   }
 
   async invalidRefreshToken(email: string): Promise<void> {
     await this.userEntityRepository.update(
       {
-        email,
+        email
       },
       {
-        hach_refresh_token: null,
-      },
-    )
+        hach_refresh_token: null
+      }
+    );
   }
 
   private toUser(adminUserEntity: User): UserM {
-    const adminUser: UserM = new UserM()
+    const adminUser: UserM = new UserM();
 
-    adminUser.id = adminUserEntity.id
-    adminUser.email = adminUserEntity.email
-    adminUser.password = adminUserEntity.password
-    adminUser.createDate = adminUserEntity.createdate
-    adminUser.updatedDate = adminUserEntity.updateddate
-    adminUser.lastLogin = adminUserEntity.last_login
-    adminUser.hashRefreshToken = adminUserEntity.hach_refresh_token
+    adminUser.id = adminUserEntity.id;
+    adminUser.email = adminUserEntity.email;
+    adminUser.password = adminUserEntity.password;
+    adminUser.createDate = adminUserEntity.createdate;
+    adminUser.updatedDate = adminUserEntity.updateddate;
+    adminUser.lastLogin = adminUserEntity.last_login;
+    adminUser.hashRefreshToken = adminUserEntity.hach_refresh_token;
     adminUser.hashForgotPasswordToken =
-      adminUserEntity.hach_forgot_password_token
+      adminUserEntity.hach_forgot_password_token;
 
-    return adminUser
+    return adminUser;
   }
 
   private toUserEntity(adminUser: UserM): User {
-    const adminUserEntity: User = new User()
+    const adminUserEntity: User = new User();
 
-    adminUserEntity.email = adminUser.email
-    adminUserEntity.password = adminUser.password
-    adminUserEntity.last_login = adminUser.lastLogin
+    adminUserEntity.email = adminUser.email;
+    adminUserEntity.password = adminUser.password;
+    adminUserEntity.last_login = adminUser.lastLogin;
 
-    return adminUserEntity
+    return adminUserEntity;
   }
 }

@@ -1,35 +1,35 @@
-import { DynamicModule, Module } from '@nestjs/common'
-import { AddTodoUseCases } from '../../usecases/todo/addTodo.usecases'
-import { DeleteTodoUseCases } from '../../usecases/todo/deleteTodo.usecases'
-import { GetTodoUseCases } from '../../usecases/todo/getTodo.usecases'
-import { GetTodosUseCases } from '../../usecases/todo/getTodos.usecases'
-import { UpdateTodoUseCases } from '../../usecases/todo/updateTodo.usecases'
-import { IsAuthenticatedUseCases } from '../../usecases/auth/isAuthenticated.usecases'
-import { LoginUseCases } from '../../usecases/auth/login.usecases'
-import { LogoutUseCases } from '../../usecases/auth/logout.usecases'
-import { GetUsersUseCases } from './../../usecases/user/getUsers.usecases'
-import { AddUserUseCases } from 'src/usecases/user/addUser.usecases'
+import { DynamicModule, Module } from '@nestjs/common';
+import { AddTodoUseCases } from '../../usecases/todo/addTodo.usecases';
+import { DeleteTodoUseCases } from '../../usecases/todo/deleteTodo.usecases';
+import { GetTodoUseCases } from '../../usecases/todo/getTodo.usecases';
+import { GetTodosUseCases } from '../../usecases/todo/getTodos.usecases';
+import { UpdateTodoUseCases } from '../../usecases/todo/updateTodo.usecases';
+import { IsAuthenticatedUseCases } from '../../usecases/auth/isAuthenticated.usecases';
+import { LoginUseCases } from '../../usecases/auth/login.usecases';
+import { LogoutUseCases } from '../../usecases/auth/logout.usecases';
+import { GetUsersUseCases } from './../../usecases/user/getUsers.usecases';
+import { AddUserUseCases } from 'src/usecases/user/addUser.usecases';
 
-import { ExceptionsModule } from '../services/exceptions/exceptions.module'
-import { LoggerModule } from '../services/logger/logger.module'
-import { LoggerService } from '../services/logger/logger.service'
+import { ExceptionsModule } from '../services/exceptions/exceptions.module';
+import { LoggerModule } from '../services/logger/logger.module';
+import { LoggerService } from '../services/logger/logger.service';
 
-import { BcryptModule } from '../services/bcrypt/bcrypt.module'
-import { BcryptService } from '../services/bcrypt/bcrypt.service'
-import { JwtModule } from '../services/jwt/jwt.module'
-import { JwtTokenService } from '../services/jwt/jwt.service'
-import { RepositoriesModule } from '../repositories/repositories.module'
+import { BcryptModule } from '../services/bcrypt/bcrypt.module';
+import { BcryptService } from '../services/bcrypt/bcrypt.service';
+import { JwtModule } from '../services/jwt/jwt.module';
+import { JwtTokenService } from '../services/jwt/jwt.service';
+import { RepositoriesModule } from '../repositories/repositories.module';
 
-import { DatabaseTodoRepository } from '../repositories/todo.repository'
-import { DatabaseUserRepository } from '../repositories/user.repository'
+import { DatabaseTodoRepository } from '../repositories/todo.repository';
+import { DatabaseUserRepository } from '../repositories/user.repository';
 
-import { EnvironmentConfigModule } from '../config/environment-config/environment-config.module'
-import { EnvironmentConfigService } from '../config/environment-config/environment-config.service'
-import { UseCaseProxy } from './usecases-proxy'
-import { ForgotPasswordUseCases } from 'src/usecases/auth/forgotPassword.usecases'
-import { ExceptionsService } from '../services/exceptions/exceptions.service'
-import { MailModule } from '../services/mail/mail.module'
-import { MailService } from '../services/mail/mail.service'
+import { EnvironmentConfigModule } from '../config/environment-config/environment-config.module';
+import { EnvironmentConfigService } from '../config/environment-config/environment-config.service';
+import { UseCaseProxy } from './usecases-proxy';
+import { ForgotPasswordUseCases } from 'src/usecases/auth/forgotPassword.usecases';
+import { ExceptionsService } from '../services/exceptions/exceptions.service';
+import { MailModule } from '../services/mail/mail.module';
+import { MailService } from '../services/mail/mail.service';
 
 @Module({
   imports: [
@@ -39,27 +39,27 @@ import { MailService } from '../services/mail/mail.service'
     EnvironmentConfigModule,
     RepositoriesModule,
     ExceptionsModule,
-    MailModule,
-  ],
+    MailModule
+  ]
 })
 export class UsecasesProxyModule {
   // User
-  static GET_USER_USECASES_PROXY = 'getUserUsecasesProxy'
-  static POST_USER_USECASES_PROXY = 'postUserUsecasesProxy'
-  static GET_USERS_USECASES_PROXY = 'getUsersUsecasesProxy'
+  static GET_USER_USECASES_PROXY = 'getUserUsecasesProxy';
+  static POST_USER_USECASES_PROXY = 'postUserUsecasesProxy';
+  static GET_USERS_USECASES_PROXY = 'getUsersUsecasesProxy';
 
   // Auth
-  static LOGIN_USECASES_PROXY = 'LoginUseCasesProxy'
-  static IS_AUTHENTICATED_USECASES_PROXY = 'IsAuthenticatedUseCasesProxy'
-  static LOGOUT_USECASES_PROXY = 'LogoutUseCasesProxy'
-  static FORGOT_PASSWORD_USECASES_PROXY = 'ForgotPasswordUseCasesProxy'
+  static LOGIN_USECASES_PROXY = 'LoginUseCasesProxy';
+  static IS_AUTHENTICATED_USECASES_PROXY = 'IsAuthenticatedUseCasesProxy';
+  static LOGOUT_USECASES_PROXY = 'LogoutUseCasesProxy';
+  static FORGOT_PASSWORD_USECASES_PROXY = 'ForgotPasswordUseCasesProxy';
 
   // Todo
-  static GET_TODO_USECASES_PROXY = 'getTodoUsecasesProxy'
-  static GET_TODOS_USECASES_PROXY = 'getTodosUsecasesProxy'
-  static POST_TODO_USECASES_PROXY = 'postTodoUsecasesProxy'
-  static DELETE_TODO_USECASES_PROXY = 'deleteTodoUsecasesProxy'
-  static PUT_TODO_USECASES_PROXY = 'putTodoUsecasesProxy'
+  static GET_TODO_USECASES_PROXY = 'getTodoUsecasesProxy';
+  static GET_TODOS_USECASES_PROXY = 'getTodosUsecasesProxy';
+  static POST_TODO_USECASES_PROXY = 'postTodoUsecasesProxy';
+  static DELETE_TODO_USECASES_PROXY = 'deleteTodoUsecasesProxy';
+  static PUT_TODO_USECASES_PROXY = 'putTodoUsecasesProxy';
 
   static register(): DynamicModule {
     return {
@@ -70,14 +70,14 @@ export class UsecasesProxyModule {
           provide: UsecasesProxyModule.POST_USER_USECASES_PROXY,
           useFactory: (
             logger: LoggerService,
-            userRepository: DatabaseUserRepository,
-          ) => new UseCaseProxy(new AddUserUseCases(logger, userRepository)),
+            userRepository: DatabaseUserRepository
+          ) => new UseCaseProxy(new AddUserUseCases(logger, userRepository))
         },
         {
           inject: [DatabaseUserRepository],
           provide: UsecasesProxyModule.GET_USERS_USECASES_PROXY,
           useFactory: (userRepository: DatabaseUserRepository) =>
-            new UseCaseProxy(new GetUsersUseCases(userRepository)),
+            new UseCaseProxy(new GetUsersUseCases(userRepository))
         },
         {
           inject: [
@@ -85,7 +85,7 @@ export class UsecasesProxyModule {
             JwtTokenService,
             EnvironmentConfigService,
             DatabaseUserRepository,
-            BcryptService,
+            BcryptService
           ],
           provide: UsecasesProxyModule.LOGIN_USECASES_PROXY,
           useFactory: (
@@ -93,7 +93,7 @@ export class UsecasesProxyModule {
             jwtTokenService: JwtTokenService,
             config: EnvironmentConfigService,
             userRepo: DatabaseUserRepository,
-            bcryptService: BcryptService,
+            bcryptService: BcryptService
           ) =>
             new UseCaseProxy(
               new LoginUseCases(
@@ -101,21 +101,21 @@ export class UsecasesProxyModule {
                 jwtTokenService,
                 config,
                 userRepo,
-                bcryptService,
-              ),
-            ),
+                bcryptService
+              )
+            )
         },
         {
           inject: [DatabaseUserRepository],
           provide: UsecasesProxyModule.IS_AUTHENTICATED_USECASES_PROXY,
           useFactory: (userRepo: DatabaseUserRepository) =>
-            new UseCaseProxy(new IsAuthenticatedUseCases(userRepo)),
+            new UseCaseProxy(new IsAuthenticatedUseCases(userRepo))
         },
         {
           inject: [DatabaseUserRepository],
           provide: UsecasesProxyModule.LOGOUT_USECASES_PROXY,
           useFactory: (userRepository: DatabaseUserRepository) =>
-            new UseCaseProxy(new LogoutUseCases(userRepository)),
+            new UseCaseProxy(new LogoutUseCases(userRepository))
         },
         {
           inject: [
@@ -125,7 +125,7 @@ export class UsecasesProxyModule {
             DatabaseUserRepository,
             ExceptionsService,
             BcryptService,
-            MailService,
+            MailService
           ],
           provide: UsecasesProxyModule.FORGOT_PASSWORD_USECASES_PROXY,
           useFactory: (
@@ -135,7 +135,7 @@ export class UsecasesProxyModule {
             userRepository: DatabaseUserRepository,
             exceptionService: ExceptionsService,
             bcryptService: BcryptService,
-            mailService: MailService,
+            mailService: MailService
           ) =>
             new UseCaseProxy(
               new ForgotPasswordUseCases(
@@ -145,46 +145,46 @@ export class UsecasesProxyModule {
                 userRepository,
                 exceptionService,
                 bcryptService,
-                mailService,
-              ),
-            ),
+                mailService
+              )
+            )
         },
         {
           inject: [DatabaseTodoRepository],
           provide: UsecasesProxyModule.GET_TODO_USECASES_PROXY,
           useFactory: (todoRepository: DatabaseTodoRepository) =>
-            new UseCaseProxy(new GetTodoUseCases(todoRepository)),
+            new UseCaseProxy(new GetTodoUseCases(todoRepository))
         },
         {
           inject: [DatabaseTodoRepository],
           provide: UsecasesProxyModule.GET_TODOS_USECASES_PROXY,
           useFactory: (todoRepository: DatabaseTodoRepository) =>
-            new UseCaseProxy(new GetTodosUseCases(todoRepository)),
+            new UseCaseProxy(new GetTodosUseCases(todoRepository))
         },
         {
           inject: [LoggerService, DatabaseTodoRepository],
           provide: UsecasesProxyModule.POST_TODO_USECASES_PROXY,
           useFactory: (
             logger: LoggerService,
-            todoRepository: DatabaseTodoRepository,
-          ) => new UseCaseProxy(new AddTodoUseCases(logger, todoRepository)),
+            todoRepository: DatabaseTodoRepository
+          ) => new UseCaseProxy(new AddTodoUseCases(logger, todoRepository))
         },
         {
           inject: [LoggerService, DatabaseTodoRepository],
           provide: UsecasesProxyModule.PUT_TODO_USECASES_PROXY,
           useFactory: (
             logger: LoggerService,
-            todoRepository: DatabaseTodoRepository,
-          ) => new UseCaseProxy(new UpdateTodoUseCases(logger, todoRepository)),
+            todoRepository: DatabaseTodoRepository
+          ) => new UseCaseProxy(new UpdateTodoUseCases(logger, todoRepository))
         },
         {
           inject: [LoggerService, DatabaseTodoRepository],
           provide: UsecasesProxyModule.DELETE_TODO_USECASES_PROXY,
           useFactory: (
             logger: LoggerService,
-            todoRepository: DatabaseTodoRepository,
-          ) => new UseCaseProxy(new DeleteTodoUseCases(logger, todoRepository)),
-        },
+            todoRepository: DatabaseTodoRepository
+          ) => new UseCaseProxy(new DeleteTodoUseCases(logger, todoRepository))
+        }
       ],
       exports: [
         // TODO
@@ -200,8 +200,8 @@ export class UsecasesProxyModule {
         UsecasesProxyModule.FORGOT_PASSWORD_USECASES_PROXY,
         // USER
         UsecasesProxyModule.POST_USER_USECASES_PROXY,
-        UsecasesProxyModule.GET_USERS_USECASES_PROXY,
-      ],
-    }
+        UsecasesProxyModule.GET_USERS_USECASES_PROXY
+      ]
+    };
   }
 }

@@ -1,3 +1,3 @@
 export interface IEnviromentConfig {
-  getTrustedDomain(): string
+  getTrustedDomain(): string;
 }

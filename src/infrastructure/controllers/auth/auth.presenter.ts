@@ -1,11 +1,11 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty } from '@nestjs/swagger';
 
 export class IsAuthPresenter {
   @ApiProperty()
-  email: string
+  email: string;
 }
 
 export class IsForgotPasswprdPresenter {
   @ApiProperty()
-  message: string
+  message: string;
 }
