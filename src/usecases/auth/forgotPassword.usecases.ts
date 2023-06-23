@@ -104,7 +104,7 @@ export class ForgotPasswordUseCases {
   ): string {
     // TODO: Não pode receber variável de ambiente no "UseCases"
     const baseUrl = process.env.TRUSTED_DOMAIN; // Domínio confiável
-    const path = '/api_v1/auth/reset-password';
+    const path = '/reset-password';
     const queryParams = {
       email,
       token
@@ -133,7 +133,7 @@ export class ForgotPasswordUseCases {
   }
 
   validateDomainForgotPasswordLink(host: string): boolean {
-    const trustedDomains = ['localhost:3000']; // Lista de domínios confiáveis
+    const trustedDomains = [`${process.env.TRUSTED_DOMAIN}`]; // Lista de domínios confiáveis
     const urlObject = new URL(host);
     const domain = urlObject.hostname;
     return !trustedDomains.includes(domain);
