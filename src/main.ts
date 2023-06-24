@@ -15,7 +15,10 @@ async function bootstrap() {
   const logger = new LoggerService('Bootstrap');
   const env = process.env.NODE_ENV;
   const app = await NestFactory.create(AppModule, {
-    cors: true
+    cors: {
+      credentials: true,
+      origin: ['http://localhost:5173']
+    }
   });
 
   app.use(cookieParser());

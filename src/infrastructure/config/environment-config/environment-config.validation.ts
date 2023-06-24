@@ -62,6 +62,9 @@ class EnvironmentVariables {
   TRUSTED_DOMAIN: string;
 
   @IsString()
+  ORIGIN_DOMAIN: string;
+
+  @IsString()
   SMTP_HOST: string;
 
   @IsNumber()

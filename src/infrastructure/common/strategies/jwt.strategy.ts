@@ -1,12 +1,12 @@
-import { ExtractJwt, Strategy } from 'passport-jwt';
-import { PassportStrategy } from '@nestjs/passport';
 import { Inject, Injectable } from '@nestjs/common';
+import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
-import { UsecasesProxyModule } from '../../usecases-proxy/usecases-proxy.module';
-import { UseCaseProxy } from '../../usecases-proxy/usecases-proxy';
+import { ExtractJwt, Strategy } from 'passport-jwt';
 import { LoginUseCases } from '../../../usecases/auth/login.usecases';
 import { ExceptionsService } from '../../services/exceptions/exceptions.service';
 import { LoggerService } from '../../services/logger/logger.service';
+import { UseCaseProxy } from '../../usecases-proxy/usecases-proxy';
+import { UsecasesProxyModule } from '../../usecases-proxy/usecases-proxy.module';
 import { authErrorMessages } from '../constants/auth.contant';
 
 @Injectable()
@@ -30,7 +30,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: any) {
     const user = await this.loginUsecaseProxy
       .getInstance()
-      .validateUserForJWTStragtegy(payload.username);
+      .validateUserForJWTStragtegy(payload.email);
     if (!user) {
       this.logger.warn('JwtStrategy', `User not found`);
       this.exceptionService.UnauthorizedException({

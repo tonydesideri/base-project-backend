@@ -69,6 +69,10 @@ export class EnvironmentConfigService
     return this.configService.get<string>('TRUSTED_DOMAIN');
   }
 
+  getOriginDomain(): string {
+    return this.configService.get<string>('ORIGIN_DOMAIN');
+  }
+
   getSmtpHost(): string {
     return this.configService.get<string>('SMTP_HOST');
   }

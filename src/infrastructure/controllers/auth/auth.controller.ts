@@ -23,20 +23,20 @@ import {
 } from './auth-dto.class';
 import { IsAuthPresenter, IsForgotPasswprdPresenter } from './auth.presenter';
 
-import { JwtRefreshGuard } from '../../common/guards/jwtRefresh.guard';
 import { JwtAuthGuard } from '../../common/guards/jwtAuth.guard';
+import { JwtRefreshGuard } from '../../common/guards/jwtRefresh.guard';
 import { LoginGuard } from '../../common/guards/login.guard';
 
+import { IsAuthenticatedUseCases } from '../../../usecases/auth/isAuthenticated.usecases';
+import { LoginUseCases } from '../../../usecases/auth/login.usecases';
+import { LogoutUseCases } from '../../../usecases/auth/logout.usecases';
 import { UseCaseProxy } from '../../usecases-proxy/usecases-proxy';
 import { UsecasesProxyModule } from '../../usecases-proxy/usecases-proxy.module';
-import { LoginUseCases } from '../../../usecases/auth/login.usecases';
-import { IsAuthenticatedUseCases } from '../../../usecases/auth/isAuthenticated.usecases';
-import { LogoutUseCases } from '../../../usecases/auth/logout.usecases';
 
-import { ForgotPasswordUseCases } from 'src/usecases/auth/forgotPassword.usecases';
-import { JwtForgotPasswordGuard } from 'src/infrastructure/common/guards/jwtForgotPassword.guard';
 import { ApiResponseType } from 'src/infrastructure/common/decorators/swagger.decorator';
 import { User } from 'src/infrastructure/common/decorators/user.decorator';
+import { JwtForgotPasswordGuard } from 'src/infrastructure/common/guards/jwtForgotPassword.guard';
+import { ForgotPasswordUseCases } from 'src/usecases/auth/forgotPassword.usecases';
 
 @Controller('auth')
 @ApiTags('auth')
