@@ -1,14 +1,14 @@
-import { ExtractJwt, Strategy } from 'passport-jwt';
-import { PassportStrategy } from '@nestjs/passport';
 import { Inject, Injectable } from '@nestjs/common';
+import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
-import { EnvironmentConfigService } from '../../config/environment-config/environment-config.service';
-import { UsecasesProxyModule } from '../../usecases-proxy/usecases-proxy.module';
-import { UseCaseProxy } from '../../usecases-proxy/usecases-proxy';
+import { ExtractJwt, Strategy } from 'passport-jwt';
+import { ITokenPayload } from 'src/domain/model/auth';
 import { LoginUseCases } from '../../../usecases/auth/login.usecases';
-import { ITokenPayload } from '../../../domain/model/auth';
-import { LoggerService } from '../../services/logger/logger.service';
+import { EnvironmentConfigService } from '../../config/environment-config/environment-config.service';
 import { ExceptionsService } from '../../services/exceptions/exceptions.service';
+import { LoggerService } from '../../services/logger/logger.service';
+import { UseCaseProxy } from '../../usecases-proxy/usecases-proxy';
+import { UsecasesProxyModule } from '../../usecases-proxy/usecases-proxy.module';
 import { authErrorMessages } from '../constants/auth.contant';
 
 @Injectable()
@@ -40,9 +40,13 @@ export class JwtRefreshTokenStrategy extends PassportStrategy(
       .getInstance()
       .getUserIfRefreshTokenMatches(refreshToken, payload.email);
     if (!user) {
-      this.logger.warn('JwtStrategy', `User not found or hash not correct`);
-      this.exceptionService.UnauthorizedException({
-        message: authErrorMessages.USER_NOT_FOUND_OR_HASH_NOT_CORRET
+      this.logger.warn(
+        'JwtRefreshStrategy',
+        `User not found or hash not correct`
+      );
+      this.exceptionService.ForbiddenException({
+        message: authErrorMessages.USER_NOT_FOUND_OR_HASH_NOT_CORRET,
+        code_error: 403
       });
     }
     return user;
