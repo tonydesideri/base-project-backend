@@ -104,6 +104,7 @@ export class DatabaseUserRepository implements IUserRepository {
     const adminUser: UserM = new UserM();
 
     adminUser.id = adminUserEntity.id;
+    adminUser.name = adminUserEntity.name;
     adminUser.email = adminUserEntity.email;
     adminUser.password = adminUserEntity.password;
     adminUser.createDate = adminUserEntity.createdate;
@@ -120,6 +121,7 @@ export class DatabaseUserRepository implements IUserRepository {
     const adminUserEntity: User = new User();
 
     adminUserEntity.email = adminUser.email;
+    adminUserEntity.name = adminUser.name;
     adminUserEntity.password = adminUser.password;
     adminUserEntity.last_login = adminUser.lastLogin;
 

@@ -1,9 +1,9 @@
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
-  Index,
   CreateDateColumn,
+  Entity,
+  Index,
+  PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
 
@@ -11,6 +11,9 @@ import {
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column('text')
+  name: string;
 
   @Index({ unique: true })
   @Column('varchar', { unique: true })

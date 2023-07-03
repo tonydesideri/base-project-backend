@@ -5,14 +5,14 @@ import {
   ApiResponse,
   ApiTags
 } from '@nestjs/swagger';
-import { UserPresenter } from './user.presenter';
-import { UsecasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
-import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
-import { AddUserUseCases } from 'src/usecases/user/addUser.usecases';
-import { AddUserDto } from './user.dto';
-import { GetUsersUseCases } from 'src/usecases/user/getUsers.usecases';
-import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
 import { ApiResponseType } from 'src/infrastructure/common/decorators/swagger.decorator';
+import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
+import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
+import { UsecasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
+import { AddUserUseCases } from 'src/usecases/user/addUser.usecases';
+import { GetUsersUseCases } from 'src/usecases/user/getUsers.usecases';
+import { AddUserDto } from './user.dto';
+import { UserPresenter } from './user.presenter';
 
 @Controller('user')
 @ApiTags('user')
@@ -29,10 +29,10 @@ export class UserController {
   @Post('user')
   @ApiResponseType(UserPresenter, true)
   async addUser(@Body() addUserDto: AddUserDto) {
-    const { email, password } = addUserDto;
+    const { name, email, password } = addUserDto;
     const userCreated = await this.addUserUsecaseProxy
       .getInstance()
-      .execute(email, password);
+      .execute(name, email, password);
     return new UserPresenter(userCreated);
   }
 

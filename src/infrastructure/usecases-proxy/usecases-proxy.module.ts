@@ -1,35 +1,35 @@
 import { DynamicModule, Module } from '@nestjs/common';
+import { AddUserUseCases } from 'src/usecases/user/addUser.usecases';
+import { IsAuthenticatedUseCases } from '../../usecases/auth/isAuthenticated.usecases';
+import { LoginUseCases } from '../../usecases/auth/login.usecases';
+import { LogoutUseCases } from '../../usecases/auth/logout.usecases';
 import { AddTodoUseCases } from '../../usecases/todo/addTodo.usecases';
 import { DeleteTodoUseCases } from '../../usecases/todo/deleteTodo.usecases';
 import { GetTodoUseCases } from '../../usecases/todo/getTodo.usecases';
 import { GetTodosUseCases } from '../../usecases/todo/getTodos.usecases';
 import { UpdateTodoUseCases } from '../../usecases/todo/updateTodo.usecases';
-import { IsAuthenticatedUseCases } from '../../usecases/auth/isAuthenticated.usecases';
-import { LoginUseCases } from '../../usecases/auth/login.usecases';
-import { LogoutUseCases } from '../../usecases/auth/logout.usecases';
 import { GetUsersUseCases } from './../../usecases/user/getUsers.usecases';
-import { AddUserUseCases } from 'src/usecases/user/addUser.usecases';
 
 import { ExceptionsModule } from '../services/exceptions/exceptions.module';
 import { LoggerModule } from '../services/logger/logger.module';
 import { LoggerService } from '../services/logger/logger.service';
 
+import { RepositoriesModule } from '../repositories/repositories.module';
 import { BcryptModule } from '../services/bcrypt/bcrypt.module';
 import { BcryptService } from '../services/bcrypt/bcrypt.service';
 import { JwtModule } from '../services/jwt/jwt.module';
 import { JwtTokenService } from '../services/jwt/jwt.service';
-import { RepositoriesModule } from '../repositories/repositories.module';
 
 import { DatabaseTodoRepository } from '../repositories/todo.repository';
 import { DatabaseUserRepository } from '../repositories/user.repository';
 
+import { ForgotPasswordUseCases } from 'src/usecases/auth/forgotPassword.usecases';
 import { EnvironmentConfigModule } from '../config/environment-config/environment-config.module';
 import { EnvironmentConfigService } from '../config/environment-config/environment-config.service';
-import { UseCaseProxy } from './usecases-proxy';
-import { ForgotPasswordUseCases } from 'src/usecases/auth/forgotPassword.usecases';
 import { ExceptionsService } from '../services/exceptions/exceptions.service';
 import { MailModule } from '../services/mail/mail.module';
 import { MailService } from '../services/mail/mail.service';
+import { UseCaseProxy } from './usecases-proxy';
 
 @Module({
   imports: [
@@ -66,12 +66,16 @@ export class UsecasesProxyModule {
       module: UsecasesProxyModule,
       providers: [
         {
-          inject: [LoggerService, DatabaseUserRepository],
+          inject: [LoggerService, DatabaseUserRepository, ExceptionsService],
           provide: UsecasesProxyModule.POST_USER_USECASES_PROXY,
           useFactory: (
             logger: LoggerService,
-            userRepository: DatabaseUserRepository
-          ) => new UseCaseProxy(new AddUserUseCases(logger, userRepository))
+            userRepository: DatabaseUserRepository,
+            exceptionService: ExceptionsService
+          ) =>
+            new UseCaseProxy(
+              new AddUserUseCases(logger, userRepository, exceptionService)
+            )
         },
         {
           inject: [DatabaseUserRepository],

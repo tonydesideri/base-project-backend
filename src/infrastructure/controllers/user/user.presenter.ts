@@ -6,6 +6,9 @@ export class UserPresenter {
   id: number;
 
   @ApiProperty()
+  name: string;
+
+  @ApiProperty()
   email: string;
 
   @ApiProperty()
@@ -19,6 +22,7 @@ export class UserPresenter {
 
   constructor(user: UserM) {
     this.id = user.id;
+    this.name = user.name;
     this.email = user.email;
     this.createdate = user.createDate;
     this.updateddate = user.updatedDate;
