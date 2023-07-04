@@ -22,6 +22,9 @@ export class User {
   @Column('text')
   password: string;
 
+  @Column('boolean', { default: false })
+  is_verified_email: boolean;
+
   @CreateDateColumn({ name: 'createdate' })
   createdate: Date;
 

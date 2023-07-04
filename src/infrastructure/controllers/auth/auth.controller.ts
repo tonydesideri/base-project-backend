@@ -99,9 +99,7 @@ export class AuthController {
     const user = await this.isAuthUsecaseProxy
       .getInstance()
       .execute(auth.email);
-    const response = new IsAuthPresenter();
-    response.email = user.email;
-    return response;
+    return new IsAuthPresenter(user);
   }
 
   @Get('refresh')

@@ -107,6 +107,7 @@ export class DatabaseUserRepository implements IUserRepository {
     adminUser.name = adminUserEntity.name;
     adminUser.email = adminUserEntity.email;
     adminUser.password = adminUserEntity.password;
+    adminUser.isVerifiedEmail = adminUserEntity.is_verified_email;
     adminUser.createDate = adminUserEntity.createdate;
     adminUser.updatedDate = adminUserEntity.updateddate;
     adminUser.lastLogin = adminUserEntity.last_login;
@@ -123,6 +124,7 @@ export class DatabaseUserRepository implements IUserRepository {
     adminUserEntity.email = adminUser.email;
     adminUserEntity.name = adminUser.name;
     adminUserEntity.password = adminUser.password;
+    adminUserEntity.is_verified_email = adminUser.isVerifiedEmail;
     adminUserEntity.last_login = adminUser.lastLogin;
 
     return adminUserEntity;

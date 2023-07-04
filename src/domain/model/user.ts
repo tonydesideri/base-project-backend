@@ -2,6 +2,7 @@ export class UserWithoutPassword {
   id: number;
   name: string;
   email: string;
+  isVerifiedEmail: boolean;
   createDate: Date;
   updatedDate: Date;
   lastLogin: Date;

@@ -20,6 +20,9 @@ export class UserPresenter {
   @ApiProperty()
   lastLogin: Date;
 
+  @ApiProperty()
+  isVerifiedEmail: boolean;
+
   constructor(user: UserM) {
     this.id = user.id;
     this.name = user.name;
@@ -27,5 +30,6 @@ export class UserPresenter {
     this.createdate = user.createDate;
     this.updateddate = user.updatedDate;
     this.lastLogin = user.lastLogin;
+    this.isVerifiedEmail = user.isVerifiedEmail;
   }
 }
