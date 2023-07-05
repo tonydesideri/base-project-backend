@@ -1,14 +1,14 @@
-import { ExtractJwt, Strategy } from 'passport-jwt';
-import { PassportStrategy } from '@nestjs/passport';
 import { Inject, Injectable } from '@nestjs/common';
+import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
-import { EnvironmentConfigService } from '../../config/environment-config/environment-config.service';
-import { UsecasesProxyModule } from '../../usecases-proxy/usecases-proxy.module';
-import { UseCaseProxy } from '../../usecases-proxy/usecases-proxy';
-import { ITokenPayload } from '../../../domain/model/auth';
-import { LoggerService } from '../../services/logger/logger.service';
-import { ExceptionsService } from '../../services/exceptions/exceptions.service';
+import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ForgotPasswordUseCases } from 'src/usecases/auth/forgotPassword.usecases';
+import { ITokenPayload } from '../../../domain/model/auth';
+import { EnvironmentConfigService } from '../../config/environment-config/environment-config.service';
+import { ExceptionsService } from '../../services/exceptions/exceptions.service';
+import { LoggerService } from '../../services/logger/logger.service';
+import { UseCaseProxy } from '../../usecases-proxy/usecases-proxy';
+import { UsecasesProxyModule } from '../../usecases-proxy/usecases-proxy.module';
 import { authErrorMessages } from '../constants/auth.contant';
 
 @Injectable()
@@ -69,9 +69,6 @@ export class JwtForogotPasswordTokenStrategy extends PassportStrategy(
         'JwtForgotPasswordStrategy',
         `User not found or hash not correct`
       );
-      this.exceptionService.UnauthorizedException({
-        message: authErrorMessages.USER_NOT_FOUND_OR_HASH_NOT_CORRET
-      });
     }
     return user;
   }

@@ -1,8 +1,6 @@
 import { IBcryptService } from 'src/domain/adapters/bcrypt.interface';
-import { IException } from 'src/domain/adapters/exceptions.interface';
 import { ILoggerService } from 'src/domain/adapters/logger.interface';
 import { IMailService } from 'src/domain/adapters/mail.interface';
-import { authErrorMessages } from 'src/infrastructure/common/constants/auth.contant';
 import {
   IJwtService,
   IJwtServicePayload
@@ -16,7 +14,6 @@ export class ForgotPasswordUseCases {
     private readonly jwtTokenService: IJwtService,
     private readonly jwtConfig: IJwTConfig,
     private readonly userRepository: IUserRepository,
-    private readonly exceptionService: IException,
     private readonly bcryptService: IBcryptService,
     private readonly mailService: IMailService
   ) {}
@@ -29,9 +26,9 @@ export class ForgotPasswordUseCases {
     const user = await this.userRepository.getUserByEmail(email);
     if (!user) {
       // Caso o e-mail não esteja associado a nenhuma conta
-      this.exceptionService.NotFoundException({
-        message: authErrorMessages.USER_NOT_FOUND
-      });
+      return {
+        message: 'Instruções para redefinição de senha enviadas por e-mail.'
+      };
     }
     // Gerar um token para a redefinição de senha
     const forgotPasswordToken = this.generateForgotPasswordToken(email);

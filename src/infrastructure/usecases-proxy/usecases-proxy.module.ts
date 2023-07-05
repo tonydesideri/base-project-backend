@@ -127,7 +127,6 @@ export class UsecasesProxyModule {
             JwtTokenService,
             EnvironmentConfigService,
             DatabaseUserRepository,
-            ExceptionsService,
             BcryptService,
             MailService
           ],
@@ -137,7 +136,6 @@ export class UsecasesProxyModule {
             jwtTokenService: JwtTokenService,
             jwtConfig: EnvironmentConfigService,
             userRepository: DatabaseUserRepository,
-            exceptionService: ExceptionsService,
             bcryptService: BcryptService,
             mailService: MailService
           ) =>
@@ -147,7 +145,6 @@ export class UsecasesProxyModule {
                 jwtTokenService,
                 jwtConfig,
                 userRepository,
-                exceptionService,
                 bcryptService,
                 mailService
               )
