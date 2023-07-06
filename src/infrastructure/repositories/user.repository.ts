@@ -89,7 +89,7 @@ export class DatabaseUserRepository implements IUserRepository {
     );
   }
 
-  async invalidRefreshToken(email: string): Promise<void> {
+  async invalidateRefreshToken(email: string): Promise<void> {
     await this.userEntityRepository.update(
       {
         email

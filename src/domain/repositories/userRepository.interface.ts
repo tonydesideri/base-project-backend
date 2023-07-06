@@ -15,5 +15,5 @@ export interface IUserRepository {
     email: string,
     hashPassword: string
   ): Promise<void>;
-  invalidRefreshToken(email: string): Promise<void>;
+  invalidateRefreshToken(email: string): Promise<void>;
 }
