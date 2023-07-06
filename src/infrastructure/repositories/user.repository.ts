@@ -74,7 +74,7 @@ export class DatabaseUserRepository implements IUserRepository {
     );
   }
 
-  async updatePasswordAndInvalidForgotPasswordToken(
+  async updatePasswordAndInvalidateForgotPasswordToken(
     email: string,
     hashPassword: string
   ): Promise<void> {

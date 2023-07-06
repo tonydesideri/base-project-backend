@@ -11,7 +11,7 @@ export interface IUserRepository {
     email: string,
     forgotPasswordToken: string
   ): Promise<void>;
-  updatePasswordAndInvalidForgotPasswordToken(
+  updatePasswordAndInvalidateForgotPasswordToken(
     email: string,
     hashPassword: string
   ): Promise<void>;

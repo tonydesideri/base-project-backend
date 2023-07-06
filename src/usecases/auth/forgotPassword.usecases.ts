@@ -64,7 +64,7 @@ export class ForgotPasswordUseCases {
     const currentHashedPassword = await this.bcryptService.hash(password);
 
     // Atualiza a senha e invalida token de redefinição de senha
-    await this.userRepository.updatePasswordAndInvalidForgotPasswordToken(
+    await this.userRepository.updatePasswordAndInvalidateForgotPasswordToken(
       email,
       currentHashedPassword
     );
