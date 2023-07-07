@@ -145,4 +145,11 @@ export class AuthController {
       .setNewPasswordForStrategyForgotPassword(auth.email, body.password);
     return 'Reset successful';
   }
+
+  @Get('preload-reset-password')
+  @UseGuards(JwtForgotPasswordGuard)
+  @ApiCookieAuth()
+  async reloadResetPassword() {
+    return 'Preload successful';
+  }
 }
