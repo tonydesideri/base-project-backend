@@ -137,7 +137,8 @@ export class UsecasesProxyModule {
             jwtConfig: EnvironmentConfigService,
             userRepository: DatabaseUserRepository,
             bcryptService: BcryptService,
-            mailService: MailService
+            mailService: MailService,
+            baseUrl: string
           ) =>
             new UseCaseProxy(
               new ForgotPasswordUseCases(
@@ -146,7 +147,8 @@ export class UsecasesProxyModule {
                 jwtConfig,
                 userRepository,
                 bcryptService,
-                mailService
+                mailService,
+                baseUrl
               )
             )
         },

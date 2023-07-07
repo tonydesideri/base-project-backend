@@ -11,10 +11,7 @@ export class MailService implements IMailService {
       to: mail.to,
       subject: mail.subject,
       template: mail.template,
-      context: {
-        email: mail.context.email,
-        link: mail.context.link
-      }
+      context: mail.context
     });
   }
 }

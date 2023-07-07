@@ -15,8 +15,12 @@ export class ForgotPasswordUseCases {
     private readonly jwtConfig: IJwTConfig,
     private readonly userRepository: IUserRepository,
     private readonly bcryptService: IBcryptService,
-    private readonly mailService: IMailService
-  ) {}
+    private readonly mailService: IMailService,
+    private readonly baseUrl: string
+  ) {
+    // TODO: Injetar a dependencia de variáveis de ambiente
+    this.baseUrl = process.env.TRUSTED_DOMAIN;
+  }
 
   async getEmailForgotPasswordStrategy(email: string) {
     this.logger.log(
@@ -41,7 +45,6 @@ export class ForgotPasswordUseCases {
     );
 
     this.mailService.sendMail({
-      body: encodedLink,
       subject: 'Redefinição de senha',
       to: email,
       template: 'reset-password',
@@ -68,6 +71,50 @@ export class ForgotPasswordUseCases {
       email,
       currentHashedPassword
     );
+
+    // Gerar um token para a redefinição de senha
+    const forgotPasswordToken = this.generateForgotPasswordToken(email);
+    // Criar um hash e salvar no banco de dados
+    await this.setCurrentForgotPasswordToken(email, forgotPasswordToken);
+    // Geração de link codificado e com hash do roken
+    const encodedLink = this.generatePasswordResetLinkEncoded(
+      email,
+      forgotPasswordToken
+    );
+
+    this.mailService.sendMail({
+      subject: 'Sua senha foi atualizada',
+      to: email,
+      template: 'password-changed',
+      context: {
+        link: encodedLink
+      }
+    });
+  }
+
+  async getUserIfForgotPasswordTokenMatches(
+    forgotPasswordToken: string,
+    email: string
+  ) {
+    const user = await this.userRepository.getUserByEmail(email);
+    if (!user || !user.hashForgotPasswordToken) {
+      return null;
+    }
+    const isFrogotPasswordTokenMatching = await this.bcryptService.compare(
+      forgotPasswordToken,
+      user.hashForgotPasswordToken
+    );
+    if (isFrogotPasswordTokenMatching) {
+      return user;
+    }
+    return null;
+  }
+
+  validateDomainForgotPasswordLink(host: string): boolean {
+    const trustedDomains = [`${this.baseUrl}`]; // Lista de domínios confiáveis
+    const urlObject = new URL(host);
+    const domain = urlObject.hostname;
+    return !trustedDomains.includes(domain);
   }
 
   // Método para gerar um token para a redefinição de senha (opcional)
@@ -100,39 +147,13 @@ export class ForgotPasswordUseCases {
     token: string
   ): string {
     // TODO: Não pode receber variável de ambiente no "UseCases"
-    const baseUrl = process.env.TRUSTED_DOMAIN; // Domínio confiável
     const path = '/reset-password';
     const queryParams = {
       email,
       token
     };
     const encodedParams = new URLSearchParams(queryParams).toString();
-    const encodedUrl = baseUrl + path + '?' + encodeURI(encodedParams);
+    const encodedUrl = this.baseUrl + path + '?' + encodeURI(encodedParams);
     return encodedUrl;
-  }
-
-  async getUserIfForgotPasswordTokenMatches(
-    forgotPasswordToken: string,
-    email: string
-  ) {
-    const user = await this.userRepository.getUserByEmail(email);
-    if (!user || !user.hashForgotPasswordToken) {
-      return null;
-    }
-    const isFrogotPasswordTokenMatching = await this.bcryptService.compare(
-      forgotPasswordToken,
-      user.hashForgotPasswordToken
-    );
-    if (isFrogotPasswordTokenMatching) {
-      return user;
-    }
-    return null;
-  }
-
-  validateDomainForgotPasswordLink(host: string): boolean {
-    const trustedDomains = [`${process.env.TRUSTED_DOMAIN}`]; // Lista de domínios confiáveis
-    const urlObject = new URL(host);
-    const domain = urlObject.hostname;
-    return !trustedDomains.includes(domain);
   }
 }
