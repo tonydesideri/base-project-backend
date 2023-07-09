@@ -7,11 +7,19 @@ interface PasswordChangedTemplate {
   link: string;
 }
 
-type TemplateType = 'reset-password' | 'password-changed';
+interface EmailConfirmationTemplate {
+  confirmationLink: string;
+}
+
+type TemplateType =
+  | 'reset-password'
+  | 'password-changed'
+  | 'email-confirmation';
 
 type TemplateContextMap = {
   'reset-password': ResetPasswordTemplate;
   'password-changed': PasswordChangedTemplate;
+  'email-confirmation': EmailConfirmationTemplate;
 };
 
 export interface IMail<T extends TemplateType = TemplateType> {

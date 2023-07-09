@@ -1,7 +1,7 @@
 import { UserM } from '../model/user';
 
 export interface IUserRepository {
-  insert(todo: UserM): Promise<UserM>;
+  insert(user: UserM): Promise<UserM>;
   getAll(): Promise<UserM[]>;
   getById(id: number): Promise<UserM>;
   getUserByEmail(email: string): Promise<UserM>;
@@ -16,4 +16,5 @@ export interface IUserRepository {
     hashPassword: string
   ): Promise<void>;
   invalidateRefreshToken(email: string): Promise<void>;
+  updateUserAndInvalidateEmailConfirmationToken(email: string): Promise<void>;
 }

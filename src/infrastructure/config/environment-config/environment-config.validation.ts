@@ -38,6 +38,12 @@ class EnvironmentVariables {
   JWT_FORGOT_PASSWORD_TOKEN_EXPIRATION_TIME: string;
 
   @IsString()
+  JWT_EMAIL_CONFIRMATION_TOKEN_SECRET: string;
+
+  @IsString()
+  JWT_EMAIL_CONFIRMATION_TOKEN_EXPIRATION_TIME: string;
+
+  @IsString()
   DATABASE_HOST: string;
 
   @IsNumber()
@@ -78,7 +84,6 @@ class EnvironmentVariables {
 }
 
 export function validate(config: Record<string, unknown>) {
-  // console.log(config)
   const validatedConfig = plainToInstance(EnvironmentVariables, config, {
     enableImplicitConversion: true
   });

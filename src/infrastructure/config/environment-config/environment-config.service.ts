@@ -37,6 +37,18 @@ export class EnvironmentConfigService
     );
   }
 
+  getJwtEmailConfirmationSecret(): string {
+    return this.configService.get<string>(
+      'JWT_EMAIL_CONFIRMATION_TOKEN_SECRET'
+    );
+  }
+
+  getJwtEmailConfirmationExpirationTime(): string {
+    return this.configService.get<string>(
+      'JWT_EMAIL_CONFIRMATION_TOKEN_EXPIRATION_TIME'
+    );
+  }
+
   getDatabaseHost(): string {
     return this.configService.get<string>('DATABASE_HOST');
   }

@@ -39,4 +39,7 @@ export class User {
 
   @Column('varchar', { nullable: true })
   hach_forgot_password_token: string;
+
+  @Column('varchar', { nullable: true })
+  hach_email_confirmation_token: string;
 }

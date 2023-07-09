@@ -66,15 +66,37 @@ export class UsecasesProxyModule {
       module: UsecasesProxyModule,
       providers: [
         {
-          inject: [LoggerService, DatabaseUserRepository, ExceptionsService],
+          inject: [
+            LoggerService,
+            DatabaseUserRepository,
+            ExceptionsService,
+            MailService,
+            JwtTokenService,
+            EnvironmentConfigService,
+            BcryptService
+          ],
           provide: UsecasesProxyModule.POST_USER_USECASES_PROXY,
           useFactory: (
             logger: LoggerService,
             userRepository: DatabaseUserRepository,
-            exceptionService: ExceptionsService
+            exceptionService: ExceptionsService,
+            mailService: MailService,
+            jwtTokenService: JwtTokenService,
+            jwtConfig: EnvironmentConfigService,
+            bcryptService: BcryptService,
+            baseUrl: string
           ) =>
             new UseCaseProxy(
-              new AddUserUseCases(logger, userRepository, exceptionService)
+              new AddUserUseCases(
+                logger,
+                userRepository,
+                exceptionService,
+                mailService,
+                jwtTokenService,
+                jwtConfig,
+                bcryptService,
+                baseUrl
+              )
             )
         },
         {

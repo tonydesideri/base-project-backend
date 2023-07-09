@@ -100,6 +100,20 @@ export class DatabaseUserRepository implements IUserRepository {
     );
   }
 
+  async updateUserAndInvalidateEmailConfirmationToken(
+    email: string
+  ): Promise<void> {
+    await this.userEntityRepository.update(
+      {
+        email
+      },
+      {
+        is_verified_email: true,
+        hach_email_confirmation_token: null
+      }
+    );
+  }
+
   private toUser(adminUserEntity: User): UserM {
     const adminUser: UserM = new UserM();
 
@@ -114,6 +128,8 @@ export class DatabaseUserRepository implements IUserRepository {
     adminUser.hashRefreshToken = adminUserEntity.hach_refresh_token;
     adminUser.hashForgotPasswordToken =
       adminUserEntity.hach_forgot_password_token;
+    adminUser.hashEmailConfirmationToken =
+      adminUserEntity.hach_email_confirmation_token;
 
     return adminUser;
   }
@@ -126,6 +142,8 @@ export class DatabaseUserRepository implements IUserRepository {
     adminUserEntity.password = adminUser.password;
     adminUserEntity.is_verified_email = adminUser.isVerifiedEmail;
     adminUserEntity.last_login = adminUser.lastLogin;
+    adminUserEntity.hach_email_confirmation_token =
+      adminUser.hashEmailConfirmationToken;
 
     return adminUserEntity;
   }

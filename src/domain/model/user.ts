@@ -8,6 +8,7 @@ export class UserWithoutPassword {
   lastLogin: Date;
   hashRefreshToken: string;
   hashForgotPasswordToken: string;
+  hashEmailConfirmationToken: string;
 }
 
 export class UserM extends UserWithoutPassword {

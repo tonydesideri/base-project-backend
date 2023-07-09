@@ -1,17 +1,26 @@
-import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Post,
+  Req,
+  UseGuards
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiExtraModels,
   ApiResponse,
   ApiTags
 } from '@nestjs/swagger';
+import { Request } from 'express';
 import { ApiResponseType } from 'src/infrastructure/common/decorators/swagger.decorator';
 import { JwtAuthGuard } from 'src/infrastructure/common/guards/jwtAuth.guard';
 import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { UsecasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
 import { AddUserUseCases } from 'src/usecases/user/addUser.usecases';
 import { GetUsersUseCases } from 'src/usecases/user/getUsers.usecases';
-import { AddUserDto } from './user.dto';
+import { AddUserDto, EmailConfirmationUserDto } from './user.dto';
 import { UserPresenter } from './user.presenter';
 
 @Controller('user')
@@ -32,7 +41,7 @@ export class UserController {
     const { name, email, password } = addUserDto;
     const userCreated = await this.addUserUsecaseProxy
       .getInstance()
-      .execute(name, email, password);
+      .create(name, email, password);
     return new UserPresenter(userCreated);
   }
 
@@ -43,5 +52,18 @@ export class UserController {
   async getUsers() {
     const users = await this.getAllUserUsecaseProxy.getInstance().execute();
     return users.map((users) => new UserPresenter(users));
+  }
+
+  @Post('email-confirmation')
+  async emailConfirmation(
+    @Body() emailConfirmationUserDto: EmailConfirmationUserDto,
+    @Req() request: Request
+  ) {
+    const { email, token } = emailConfirmationUserDto;
+    const host = request.get('host');
+    await this.addUserUsecaseProxy
+      .getInstance()
+      .setEmailConfirmation(host, token, email);
+    return 'Email confirmation successful';
   }
 }

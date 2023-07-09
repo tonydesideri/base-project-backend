@@ -5,4 +5,6 @@ export interface IJwTConfig {
   getJwtRefreshExpirationTime(): string;
   getJwtForgotPasswordSecret(): string;
   getJwtForgotPasswordExpirationTime(): string;
+  getJwtEmailConfirmationSecret(): string;
+  getJwtEmailConfirmationExpirationTime(): string;
 }
