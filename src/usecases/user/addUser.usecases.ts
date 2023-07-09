@@ -80,7 +80,6 @@ export class AddUserUseCases {
     token: string,
     email: string
   ): Promise<void> {
-    console.log(email);
     /**
      * Validação para apenas domínios confiáveis
      */
