@@ -38,16 +38,10 @@ export class EmailConfirmationUserDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  @Transform(({ value }) => {
-    return decodeURIComponent(decodeURIComponent(value));
-  })
   email: string;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  @Transform(({ value }) => {
-    return decodeURIComponent(decodeURIComponent(value));
-  })
   token: string;
 }
