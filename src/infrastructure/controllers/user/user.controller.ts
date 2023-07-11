@@ -20,7 +20,11 @@ import { UseCaseProxy } from 'src/infrastructure/usecases-proxy/usecases-proxy';
 import { UsecasesProxyModule } from 'src/infrastructure/usecases-proxy/usecases-proxy.module';
 import { AddUserUseCases } from 'src/usecases/user/addUser.usecases';
 import { GetUsersUseCases } from 'src/usecases/user/getUsers.usecases';
-import { AddUserDto, EmailConfirmationUserDto } from './user.dto';
+import {
+  AddUserDto,
+  EmailConfirmationUserDto,
+  ResendConfirmationEmailUserDto
+} from './user.dto';
 import { UserPresenter } from './user.presenter';
 
 @Controller('user')
@@ -65,5 +69,14 @@ export class UserController {
       .getInstance()
       .setEmailConfirmation(host, token, email);
     return 'Email confirmation successful';
+  }
+
+  @Post('resend-confirmation-email')
+  async resendConfirmationEmail(
+    @Body() resendConfirmationEmailUserDto: ResendConfirmationEmailUserDto
+  ) {
+    const { email } = resendConfirmationEmailUserDto;
+    await this.addUserUsecaseProxy.getInstance().resendConfirmationEmail(email);
+    return 'Resend email confirmation successful';
   }
 }

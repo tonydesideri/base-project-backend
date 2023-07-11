@@ -45,3 +45,10 @@ export class EmailConfirmationUserDto {
   @IsString()
   token: string;
 }
+
+export class ResendConfirmationEmailUserDto {
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsString()
+  email: string;
+}

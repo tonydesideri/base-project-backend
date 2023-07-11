@@ -37,6 +37,7 @@ export class JwtForogotPasswordTokenStrategy extends PassportStrategy(
     /**
      * Validação para apenas domínios confiáveis
      */
+    // TODO: adicionar na validação global
     const host = request.get('Host');
     const isValidateHost = this.forgotPasswordUsecaseProxy
       .getInstance()

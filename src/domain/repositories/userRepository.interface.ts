@@ -17,4 +17,5 @@ export interface IUserRepository {
   ): Promise<void>;
   invalidateRefreshToken(email: string): Promise<void>;
   updateUserAndInvalidateEmailConfirmationToken(email: string): Promise<void>;
+  updateHashEmailConfirmationToken(email: string, hash: string): Promise<void>;
 }

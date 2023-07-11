@@ -11,7 +11,6 @@ import { postgresErrorCode } from 'src/infrastructure/common/constants/postgres.
 import { userErrorMessages } from 'src/infrastructure/common/constants/user.contant';
 import { UserM } from '../../domain/model/user';
 import { IUserRepository } from './../../domain/repositories/userRepository.interface';
-const bcrypt = require('bcrypt');
 
 export class AddUserUseCases {
   constructor(
@@ -40,7 +39,7 @@ export class AddUserUseCases {
       const user = new UserM();
       user.name = name;
       user.email = email;
-      user.password = await bcrypt.hash(password, 10);
+      user.password = await this.bcryptService.hash(password);
       user.hashEmailConfirmationToken = hashedEmailConfirmationToken;
       const result = await this.userRepository.insert(user);
 
@@ -83,6 +82,7 @@ export class AddUserUseCases {
     /**
      * Validação para apenas domínios confiáveis
      */
+    // TODO: Adicionar no middleware global de validação
     const isValidateHost = this.validateDomainEmailConfirmationLink(host);
 
     if (!isValidateHost) {
@@ -127,6 +127,43 @@ export class AddUserUseCases {
     await this.userRepository.updateUserAndInvalidateEmailConfirmationToken(
       email
     );
+  }
+
+  async resendConfirmationEmail(email: string): Promise<void> {
+    const user = await this.userRepository.getUserByEmail(email);
+
+    if (user.isVerifiedEmail) {
+      this.exceptionService.ForbiddenException({
+        message: userErrorMessages.MAIL_IS_VALID
+      });
+    }
+
+    // Gerar um token para a redefinição de senha
+    const emailConfirmationToken = this.generateEmailConfirmationToken(email);
+    // Criar um hash do token gerado
+    const hashedEmailConfirmationToken = await this.bcryptService.hash(
+      emailConfirmationToken
+    );
+
+    await this.userRepository.updateHashEmailConfirmationToken(
+      email,
+      hashedEmailConfirmationToken
+    );
+
+    // Geração de link codificado e com hash do roken
+    const encodedLink = this.generateEmailConfirmationLinkEncoded(
+      email,
+      emailConfirmationToken
+    );
+
+    this.mailService.sendMail({
+      subject: 'Confirme seu e-mail para começar a user a Localhost',
+      to: email,
+      template: 'email-confirmation',
+      context: {
+        confirmationLink: encodedLink
+      }
+    });
   }
 
   private generateEmailConfirmationToken(email: string): string {

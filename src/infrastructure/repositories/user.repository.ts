@@ -114,6 +114,20 @@ export class DatabaseUserRepository implements IUserRepository {
     );
   }
 
+  async updateHashEmailConfirmationToken(
+    email: string,
+    hash: string
+  ): Promise<void> {
+    await this.userEntityRepository.update(
+      {
+        email
+      },
+      {
+        hach_email_confirmation_token: hash
+      }
+    );
+  }
+
   private toUser(adminUserEntity: User): UserM {
     const adminUser: UserM = new UserM();
 
